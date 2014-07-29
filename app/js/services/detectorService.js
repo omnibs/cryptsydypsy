@@ -13,10 +13,6 @@ app.service('detectorService', ['notifyService',function (notifyService) {
 	
 	var oldState = state;
 
-	setInterval(function() {
-		oldState = JSON.parse(JSON.stringify(state));
-	},10000);
-
 	var svc = {
 		push: function(data){
 			state.buffer.push(data.trade);
@@ -30,7 +26,6 @@ app.service('detectorService', ['notifyService',function (notifyService) {
 			this.removeOlder();
 
 			this.recalc();
-			this.check();
 		},
 		lastTrade: function() {
 			return state.buffer[state.buffer.length-1];
@@ -51,7 +46,6 @@ app.service('detectorService', ['notifyService',function (notifyService) {
 				var price = item.price-0;
 				priceMax = Math.max(priceMax, price);
 				priceMin = Math.min(priceMin, price);
-				state.priceDelta = priceMax/priceMin; // fica certo em dump isso?
 			};
 
 			state.Buy.delta = state.Buy.volume / oldState.Buy.volume;
@@ -60,6 +54,7 @@ app.service('detectorService', ['notifyService',function (notifyService) {
 			state.lastPrice = state.lastTrade.price;
 			state.maxPrice = priceMax;
 			state.minPrice = priceMin;
+			state.priceDelta = priceMax/priceMin; // fica certo em dump isso?
 		},
 		deltaT: function(){
 			return this.lastTrade().timestamp - state.buffer[0].timestamp;
@@ -73,26 +68,28 @@ app.service('detectorService', ['notifyService',function (notifyService) {
 			// se aumentou mais de 10% volume em 10 segundos == pump/dump? axo q nao neh, mas vai por enquanto
 			var delta = state.Buy.delta;
 			var abs = state.Buy.volume - oldState.Buy.volume;
-			if (delta > 0.1)
-				notifyService.notify('Pump?', 'Delta de volume em 10s \r\n' 
-					+ (delta*100).toFixed(2) + '%\r\n'
-					+ abs.toFixed(8) + ' BTC');
-			
-			delta = state.Sell.delta;
-			abs = state.Buy.volume - oldState.Buy.volume;
-			if (delta > 0.1)
-				notifyService.notify('Dump?', 'Delta de volume em 10s \r\n' 
-					+ (delta*100).toFixed(2) + '%\r\n'
-					+ abs.toFixed(8) + ' BTC');
+			if(false) { // tao dando mto falso positivo
+				if (delta > 0.1)
+					notifyService.notify('Pump?', 'Delta de volume em 10s \r\n' 
+						+ (delta*100).toFixed(2) + '%\r\n'
+						+ abs.toFixed(8) + ' BTC');
+				
+				delta = state.Sell.delta;
+				abs = state.Buy.volume - oldState.Buy.volume;
+				if (delta > 0.1)
+					notifyService.notify('Dump?', 'Delta de volume em 10s \r\n' 
+						+ (delta*100).toFixed(2) + '%\r\n'
+						+ abs.toFixed(8) + ' BTC');
+			}
 
 			delta = state.priceDelta;// / oldState.priceDelta;
 			abs = state.maxPrice - state.minPrice;
-			if (delta >= 0.05)
+			if (delta >= 0.05 && delta != Infinity)
 				notifyService.notify('Pump?', 'Delta de preço em 10s aumentou \r\n' 
 					+ (delta*100).toFixed(2) + '%\r\n'
 					+ abs.toFixed(8) + ' BTC');
 
-			if (delta <= -0.05)
+			if (delta <= -0.05 && delta != Infinity)
 				notifyService.notify('Dump?', 'Delta de preço em 10s caiu \r\n' 
 					+ (delta*-100).toFixed(2) + '%\r\n'
 					+ (-abs).toFixed(8) + ' BTC');
@@ -116,6 +113,14 @@ app.service('detectorService', ['notifyService',function (notifyService) {
 			});
 		}
 	};
+
+	setInterval(function() {
+		oldState = JSON.parse(JSON.stringify(state));
+
+		//svc.removeOlder();
+		//svc.recalc();
+		svc.check();
+	},10000);
 
 	return svc;
 }]);
