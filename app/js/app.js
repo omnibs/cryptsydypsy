@@ -12,6 +12,7 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider', function ($r
 
 	$routeProvider
 		.when('/home', {
+			controller: 'mainCtl',
 			templateUrl: 'templates/home.html'
 		})
 		.otherwise({
