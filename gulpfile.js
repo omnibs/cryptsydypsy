@@ -43,7 +43,7 @@ var	SETTINGS = {
 var serverConfig = {
 	root: 'build',
 	host: 'localhost',
-	port: 9000,
+	port: 9001,
 	livereload: true
 };
 
