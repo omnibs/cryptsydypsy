@@ -91,7 +91,7 @@ app.service('detectorService', ['notifyService',function (notifyService) {
 					+ abs.toFixed(8) + ' BTC');
 
 			delta = state.priceDelta;
-			var deltaChange = delta / oldState.priceDelta;
+			var deltaChange = (delta / oldState.priceDelta)-1;
 			abs = state.maxPrice - state.minPrice;
 			if (delta >= 0.05 && delta != Infinity && deltaChange > 0.01)
 				notifyService.notify('Pump?', 'Delta de preço em 5min aumentou \r\n' 
