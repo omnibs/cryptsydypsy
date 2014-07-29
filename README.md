@@ -1,10 +1,7 @@
- ng-dump WebApp!
-=====================
+cryptsydypsy
+============
 
----------------
-
-This is an Angular.js App and is powered by [Boom Angular Generator](https://npmjs.org/package/generator-boom)
-
+Making the world a better place by integrative tools for information based decision making in online trading of altcoins.
 
 
 Installation
@@ -36,8 +33,3 @@ Finally, fire up the server
 ```
 
 **Thats it!**
-
-
-
-----------
-
