@@ -16,8 +16,6 @@ app.service('detectorService', ['notifyService',function (notifyService) {
 	var svc = {
 		push: function(data){
 			state.buffer.push(data.trade);
-			window.a = window.a || [];
-			a.push(data);
 
 			var overflown = state.buffer.length - state.maxLength;
 			if (overflown > 0)
@@ -26,6 +24,7 @@ app.service('detectorService', ['notifyService',function (notifyService) {
 			this.removeOlder();
 
 			this.recalc();
+			window.a = state;
 		},
 		lastTrade: function() {
 			return state.buffer[state.buffer.length-1];
@@ -48,15 +47,16 @@ app.service('detectorService', ['notifyService',function (notifyService) {
 				priceMin = Math.min(priceMin, price);
 			};
 
-			state.Buy.delta = state.Buy.volume / oldState.Buy.volume;
-			state.Sell.delta = state.Sell.volume / oldState.Sell.volume;
+			state.Buy.delta = (state.Buy.volume / oldState.Buy.volume)-1;
+			state.Sell.delta = (state.Sell.volume / oldState.Sell.volume)-1;
 			state.lastTrade = this.lastTrade();
 			state.lastPrice = state.lastTrade.price;
 			state.maxPrice = priceMax;
 			state.minPrice = priceMin;
-			state.priceDelta = priceMax/priceMin; // fica certo em dump isso?
+			state.priceDelta = (priceMax/priceMin)-1; // fica certo em dump isso?
 		},
 		deltaT: function(){
+			if (!this.lastTrade()) return 0;
 			return this.lastTrade().timestamp - state.buffer[0].timestamp;
 		},
 		check: function(){
@@ -68,29 +68,38 @@ app.service('detectorService', ['notifyService',function (notifyService) {
 			// se aumentou mais de 10% volume em 10 segundos == pump/dump? axo q nao neh, mas vai por enquanto
 			var delta = state.Buy.delta;
 			var abs = state.Buy.volume - oldState.Buy.volume;
-			if(false) { // tao dando mto falso positivo
-				if (delta > 0.1)
-					notifyService.notify('Pump?', 'Delta de volume em 10s \r\n' 
-						+ (delta*100).toFixed(2) + '%\r\n'
-						+ abs.toFixed(8) + ' BTC');
-				
-				delta = state.Sell.delta;
-				abs = state.Buy.volume - oldState.Buy.volume;
-				if (delta > 0.1)
-					notifyService.notify('Dump?', 'Delta de volume em 10s \r\n' 
-						+ (delta*100).toFixed(2) + '%\r\n'
-						+ abs.toFixed(8) + ' BTC');
-			}
+			
+			if (false && delta > 0.1) // mto falso positivo
+				notifyService.notify('Pump?', 'Delta de volume em 10s \r\n' 
+					+ (delta*100).toFixed(2) + '%\r\n'
+					+ abs.toFixed(8) + ' BTC');
+			
+			if (abs > 20)
+				notifyService.notify('Pump?', 'Volume em 10s > 20btc: \r\n' 
+					+ abs.toFixed(8) + ' BTC');
+			
 
-			delta = state.priceDelta;// / oldState.priceDelta;
-			abs = state.maxPrice - state.minPrice;
-			if (delta >= 0.05 && delta != Infinity)
-				notifyService.notify('Pump?', 'Delta de preço em 10s aumentou \r\n' 
+			delta = state.Sell.delta;
+			abs = state.Buy.volume - oldState.Buy.volume;
+			if (false && delta > 0.1) // mto falso positivo
+				notifyService.notify('Dump?', 'Delta de volume em 10s \r\n' 
 					+ (delta*100).toFixed(2) + '%\r\n'
 					+ abs.toFixed(8) + ' BTC');
 
-			if (delta <= -0.05 && delta != Infinity)
-				notifyService.notify('Dump?', 'Delta de preço em 10s caiu \r\n' 
+			if (abs > 20)
+				notifyService.notify('Dump?', 'Volume em 10s > 20btc: \r\n' 
+					+ abs.toFixed(8) + ' BTC');
+
+			delta = state.priceDelta;
+			var deltaChange = delta / oldState.priceDelta;
+			abs = state.maxPrice - state.minPrice;
+			if (delta >= 0.05 && delta != Infinity && deltaChange > 0.01)
+				notifyService.notify('Pump?', 'Delta de preço em 5min aumentou \r\n' 
+					+ (delta*100).toFixed(2) + '%\r\n'
+					+ abs.toFixed(8) + ' BTC');
+
+			if (delta <= -0.05 && delta != Infinity && deltaChange > 0.01)
+				notifyService.notify('Dump?', 'Delta de preço em 5min caiu \r\n' 
 					+ (delta*-100).toFixed(2) + '%\r\n'
 					+ (-abs).toFixed(8) + ' BTC');
 		},
