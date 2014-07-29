@@ -1,2 +1,9 @@
 <h1>Configuration</h1>
 <button ng-click="grantPermission()" ng-disabled="notifyAllowed">{{notifyAllowed ? "All set..." : "Grant notify permission!"}}</button>
+
+<div ng-if="model">
+<p>When: {{model.trade.datetime}}</p>
+<p>Top buy: {{(model.trade.topbuy.price-0)*(model.trade.topbuy.quantity-0)}} BTC @ {{model.trade.topbuy.price}}</p>
+<p>Top sell: {{(model.trade.topsell.price-0)*(model.trade.topsell.quantity-0)}} BTC @ {{model.trade.topsell.price}}</p>
+
+</div>

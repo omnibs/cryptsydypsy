@@ -6,5 +6,7 @@ app.controller('mainCtl', ['$scope', 'notifyService','cryptsyService', 'detector
 
 	cryptsyService.bind(169, function(data) {
 		detectorService.push(data);
+		$scope.model = data;
+		$scope.$apply();
 	});
 }]);
