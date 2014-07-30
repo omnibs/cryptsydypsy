@@ -112,7 +112,8 @@ app.service('tradeStatsService', ['notifyService',function (notifyService) {
 				last1: last1, 
 				last5: last5, 
 				last10: last10, 
-				previous10: previous10
+				previous10: previous10,
+				lastTrade: this.lastTrade()
 			};
 		}
 	};

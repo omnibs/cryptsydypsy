@@ -3,8 +3,7 @@
 
 <p>Last Trade: {{model.lastTrade.total}} BTC 
 	<br>@ {{model.lastTrade.price}} BTC on {{model.lastTrade.datetime}} </p>
-<p>Price Delta: {{(model.priceDelta*100).toFixed(2)}}% in 5min</p>
-<p style="color: red" ng-if="model.deltaT < model.timelength">Gathering data... {{model.timelength - model.deltaT}}s left<p>
+<p>Price Delta: {{(model.last5.priceDelta*100).toFixed(2)}}% in 5min</p>
 <table ng-if="model" style="float:left" class="trades">
 	<thead>
 		<th>Range</th>
