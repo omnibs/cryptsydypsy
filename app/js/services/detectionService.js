@@ -35,11 +35,11 @@ app.service('detectionService', ['notifyService', 'tradeStatsService', 'orderboo
 
 			var state = tradeStatsService.getState();
 
-			if ((state.buy1m.volume / state.previous10.buyVolume) >= 2
-				&& state.previous10.buyVolume > 3
-				&& state.buy1m.volume > state.sell1m.volume) {
+			if ((state.last1.Buy.volume / state.previous10.Buy.volume) >= 2
+				&& state.previous10.Buy.volume > 3
+				&& state.last1.Buy.volume > state.last1.Sell.volume) {
 
-				var msg = 'Movimentação grande e súbita:\r\n' + state.buy1m.volume;
+				var msg = 'Movimentação grande e súbita:\r\n' + state.last1.Buy.volume;
 				notifyService.notify('Pump?', msg);
 				cooldown.pump = true;
 
@@ -53,11 +53,11 @@ app.service('detectionService', ['notifyService', 'tradeStatsService', 'orderboo
 
 			var state = tradeStatsService.getState();
 
-			if ((state.sell1m.volume / state.previous10.sellVolume) >= 2
-				&& state.previous10.sellVolume > 3
-				&& state.buy1m.volume < state.sell1m.volume) {
+			if ((state.last1.Buy.volume / state.previous10.Sell.Volume) >= 2
+				&& state.previous10.Sell.volume > 3
+				&& state.last1.Buy.volume < state.last1.Sell.volume) {
 
-				var msg = 'Movimentação grande e súbita:\r\n' + state.sell1m.volume;
+				var msg = 'Movimentação grande e súbita:\r\n' + state.last1.Sell.volume;
 				notifyService.notify('Dump?', msg);
 				cooldown.dump = true;
 

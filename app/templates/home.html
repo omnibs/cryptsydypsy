@@ -14,18 +14,18 @@
 	<tbody>
 		<tr>
 			<td>1min</td>
-			<td>{{model.buy1m.volume.toFixed(8)}} BTC | {{(model.buy1m.delta*100).toFixed(2)}}%</td>
-			<td>{{model.sell1m.volume.toFixed(8)}} BTC | {{(model.sell1m.delta*100).toFixed(2)}}%</td>
+			<td>{{model.last1.Buy.volume.toFixed(8)}} BTC | {{(model.last1.Buy.delta*100).toFixed(2)}}%</td>
+			<td>{{model.last1.Sell.volume.toFixed(8)}} BTC | {{(model.last1.Sell.delta*100).toFixed(2)}}%</td>
 		</tr>
 		<tr>
 			<td>5min</td>
-			<td>{{model.buy5m.volume.toFixed(8)}} BTC | {{(model.buy5m.delta*100).toFixed(2)}}%</td>
-			<td>{{model.sell5m.volume.toFixed(8)}} BTC | {{(model.sell5m.delta*100).toFixed(2)}}%</td>
+			<td>{{model.last5.Buy.volume.toFixed(8)}} BTC | {{(model.last5.Buy.delta*100).toFixed(2)}}%</td>
+			<td>{{model.last5.Sell.volume.toFixed(8)}} BTC | {{(model.last5.Sell.delta*100).toFixed(2)}}%</td>
 		</tr>
 		<tr>
 			<td>10min</td>
-			<td>{{model.buy10m.volume.toFixed(8)}} BTC | {{(model.buy10m.delta*100).toFixed(2)}}%</td>
-			<td>{{model.sell10m.volume.toFixed(8)}} BTC | {{(model.sell10m.delta*100).toFixed(2)}}%</td>
+			<td>{{model.last10.Buy.volume.toFixed(8)}} BTC | {{(model.last10.Buy.delta*100).toFixed(2)}}%</td>
+			<td>{{model.last10.Sell.volume.toFixed(8)}} BTC | {{(model.last10.Sell.delta*100).toFixed(2)}}%</td>
 		</tr>
 	</tbody>
 </table>
