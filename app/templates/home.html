@@ -3,8 +3,13 @@
 
 <div ng-if="model">
 	<p>Last Trade: {{model.lastTrade.total}} BTC @ {{model.lastTrade.price}} BTC on {{model.lastTrade.datetime}} </p>
-	<p>Buys: {{model.buy.volume.toFixed(8)}} BTC | {{(model.buy.delta*100).toFixed(2)}}% in 5min</p>
-	<p>Sells: {{model.sell.volume.toFixed(8)}} BTC | {{(model.sell.delta*100).toFixed(2)}}% in 5min</p>
+	<p>Buys (1m): {{model.buy1m.volume.toFixed(8)}} BTC | {{(model.buy1m.delta*100).toFixed(2)}}% in 1min</p>
+	<p>Buys (5m): {{model.buy5m.volume.toFixed(8)}} BTC | {{(model.buy5m.delta*100).toFixed(2)}}% in 5min</p>
+	<p>Buys (10m): {{model.buy10m.volume.toFixed(8)}} BTC | {{(model.buy10m.delta*100).toFixed(2)}}% in 10min</p>
+	<br/>
+	<p>Sells (1m): {{model.sell1m.volume.toFixed(8)}} BTC | {{(model.sell1m.delta*100).toFixed(2)}}% in 1min</p>
+	<p>Sells (5m): {{model.sell5m.volume.toFixed(8)}} BTC | {{(model.sell5m.delta*100).toFixed(2)}}% in 5min</p>
+	<p>Sells (10m): {{model.sell0m.volume.toFixed(8)}} BTC | {{(model.sell10m.delta*100).toFixed(2)}}% in 10min</p>
 	<p>Price Delta: {{(model.priceDelta*100).toFixed(2)}}% in 5min</p>
 	<p style="color: red" ng-if="model.deltaT < model.timelength">Gathering data... {{model.timelength - model.deltaT}}s left<p>
 </div>
