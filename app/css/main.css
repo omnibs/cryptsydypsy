@@ -1,8 +1,13 @@
-table{
-	border: 1px solid;
-	height: 400px;
-	display: block;
-	overflow-y: scroll;
+.orders table{
+		border: 1px solid;
+		height: 400px;
+		display: block;
+		overflow-y: scroll;
+		margin-left: 10px;
+	}
+.orders{
+		margin-top: -76px;
+		margin-left: 40px;
 }
 td{
 	padding: 5px;
