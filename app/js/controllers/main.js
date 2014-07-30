@@ -16,5 +16,5 @@ app.controller('mainCtl', ['$scope', 'notifyService','cryptsyService', 'tradeSta
 		$scope.orderState = orderbookStatsService.getState();
 		detectionService.process();
 	});
-	$scope.tab = 'instant';
+	$scope.tab = 'last1';
 }]);
