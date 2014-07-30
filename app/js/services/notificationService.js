@@ -16,11 +16,15 @@ app.service('notifyService', [function () {
 				var notification = new Notification('All set!', {body: 'Permission granted to notify you about dumps and pumps!'});
 			});
 		},
-		notify: function(title, body) {
+		notify: function(title, body, sound) {
 			if (!("Notification" in window)) throw "This browser does not support desktop notification";
 
 			if (Notification.permission === "granted") {
     			var notification = new Notification(title, {body: body});
+
+    			if (sound){
+    				    new Audio(sound).play();
+    			}
   			}
 		}
 	};
