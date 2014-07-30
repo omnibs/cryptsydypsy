@@ -1,7 +1,7 @@
 <h1>Configuration</h1>
 <button ng-click="grantPermission()" ng-disabled="notifyAllowed">{{notifyAllowed ? "All set..." : "Grant notify permission!"}}</button>
 
-<div ng-if="model">
+<div ng-if="model" style="float:left">
 	<p>Last Trade: {{model.lastTrade.total}} BTC @ {{model.lastTrade.price}} BTC on {{model.lastTrade.datetime}} </p>
 	<p>Buys (1m): {{model.buy1m.volume.toFixed(8)}} BTC | {{(model.buy1m.delta*100).toFixed(2)}}% in 1min</p>
 	<p>Buys (5m): {{model.buy5m.volume.toFixed(8)}} BTC | {{(model.buy5m.delta*100).toFixed(2)}}% in 5min</p>
@@ -9,7 +9,53 @@
 	<br/>
 	<p>Sells (1m): {{model.sell1m.volume.toFixed(8)}} BTC | {{(model.sell1m.delta*100).toFixed(2)}}% in 1min</p>
 	<p>Sells (5m): {{model.sell5m.volume.toFixed(8)}} BTC | {{(model.sell5m.delta*100).toFixed(2)}}% in 5min</p>
-	<p>Sells (10m): {{model.sell0m.volume.toFixed(8)}} BTC | {{(model.sell10m.delta*100).toFixed(2)}}% in 10min</p>
+	<p>Sells (10m): {{model.sell10m.volume.toFixed(8)}} BTC | {{(model.sell10m.delta*100).toFixed(2)}}% in 10min</p>
 	<p>Price Delta: {{(model.priceDelta*100).toFixed(2)}}% in 5min</p>
 	<p style="color: red" ng-if="model.deltaT < model.timelength">Gathering data... {{model.timelength - model.deltaT}}s left<p>
+</div>
+<div ng-if="orderState" style="float:left;">
+	<p style="clear:both">
+		<button ng-click="tab='instant'">Instant</button>
+		<button ng-click="tab='last1'">1min</button>
+		<button ng-click="tab='last5'">5min</button>
+		<button ng-click="tab='last10'">10min</button>
+	</p>
+	<div style="float:left;">
+		SELL
+		<table>
+			<thead>
+				<th>Price</th>
+				<th>Amount</th>
+				<th>Delta</th>
+				<th>Acc</th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in orderState.orderbook[tab] | orderStuff: 'asc': orderState.curSell track by item.price">
+					<td>{{item.price}}</td>
+					<td>{{item.value.toFixed(4)}}</td>
+					<td>{{item.delta.toFixed(3)}}</td>
+					<td>{{item.cumulative.toFixed(3)}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div style="float:left;">
+		BUY
+		<table>
+			<thead>
+				<th>Price</th>
+				<th>Amount</th>
+				<th>Delta</th>
+				<th>Acc</th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in orderState.orderbook[tab] | orderStuff: 'desc': orderState.curBuy track by item.price">
+					<td>{{item.price}}</td>
+					<td>{{item.value.toFixed(4)}}</td>
+					<td>{{item.delta.toFixed(3)}}</td>
+					<td>{{item.cumulative.toFixed(3)}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>

@@ -1,8 +1,8 @@
-app.service('detectorService', ['notifyService',function (notifyService) {
+app.service('tradeStatsService', ['notifyService',function (notifyService) {
 	var state = {
 		maxLength: 100000,
 		timelength: 60, //5min
-		overprovision: 60, // +60s de overprovision pra contar periodos de inatividade e nao parar de analisar durante eles
+		overprovision: 0, // +60s de overprovision pra contar periodos de inatividade e nao parar de analisar durante eles
 		buffer: [], 
 		Sell: {volume: 0, delta: 0, lastPrice: null},
 		Buy: {volume: 0, delta: 0, lastPrice: null},
@@ -31,7 +31,7 @@ app.service('detectorService', ['notifyService',function (notifyService) {
 			var overflown = state.buffer.length - state.maxLength;
 			if (overflown > 0)
 				state.buffer.splice(state.maxLength, overflown);
-			
+
 			this.removeOlder();
 
 			this.recalc();

@@ -1,0 +1,20 @@
+table{
+	border: 1px solid;
+	height: 400px;
+	display: block;
+	overflow-y: scroll;
+}
+td{
+	padding: 5px;
+}
+thead th{
+	border-bottom: 1px solid black;
+}
+tbody > tr > td {
+	line-height: 1.428571429;
+	vertical-align: top;
+	border-top: 1px solid #dddddd;
+}
+tbody > tr:nth-child(odd) > td {
+	background-color: #f9f9f9;
+}
