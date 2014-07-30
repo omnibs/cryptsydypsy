@@ -8,7 +8,7 @@ app.service('detectionService', ['notifyService', 'tradeStatsService', 'orderboo
 			this.pump();
 		},
 		fakeWallMovida: function() {
-			if (cooldown.fakeWallMovida) return;
+			if (cooldown.fakeWallMovida || !state.cumulative.last1) return;
 			var state = orderbookStatsService.getState();
 			
 			var bigmoves = state.cumulative.last1
@@ -31,12 +31,12 @@ app.service('detectionService', ['notifyService', 'tradeStatsService', 'orderboo
 			}
 		},
 		pump: function(){
-			if (cooldown.pump) return;
+			if (cooldown.pump || !state.cumulative.last1) return;
 
 			var state = tradeStatsService.getState();
 
-			if ((state.last1.Buy.volume / state.previous10.Buy.volume) >= 2
-				&& state.previous10.Buy.volume > 3
+			if ((state.last1.Buy.volume / state.previous10.Buy.volume) >= 1
+				&& state.last5.Buy.volume > 10
 				&& state.last1.Buy.volume > state.last1.Sell.volume) {
 
 				var msg = 'Movimentação grande e súbita:\r\n' + state.last1.Buy.volume;
@@ -53,8 +53,8 @@ app.service('detectionService', ['notifyService', 'tradeStatsService', 'orderboo
 
 			var state = tradeStatsService.getState();
 
-			if ((state.last1.Buy.volume / state.previous10.Sell.Volume) >= 2
-				&& state.previous10.Sell.volume > 3
+			if ((state.last1.Buy.volume / state.previous10.Sell.Volume) >= 1
+				&& state.last5.Sell.volume > 10
 				&& state.last1.Buy.volume < state.last1.Sell.volume) {
 
 				var msg = 'Movimentação grande e súbita:\r\n' + state.last1.Sell.volume;
