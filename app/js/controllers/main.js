@@ -1,5 +1,5 @@
-app.controller('mainCtl', ['$scope', 'notifyService','cryptsyService', 'tradeStatsService','orderbookStatsService',
-function($scope, notifyService, cryptsyService, tradeStatsService, orderbookStatsService) {
+app.controller('mainCtl', ['$scope', 'notifyService','cryptsyService', 'tradeStatsService','orderbookStatsService','detectionService'
+,function($scope, notifyService, cryptsyService, tradeStatsService, orderbookStatsService, detectionService) {
 	$scope.grantPermission = function() {
 		notifyService.allow();
 	}
@@ -9,10 +9,12 @@ function($scope, notifyService, cryptsyService, tradeStatsService, orderbookStat
 		tradeStatsService.push(data);
 		$scope.model = tradeStatsService.getState();
 		$scope.$apply();
+		detectionService.process();
 	});
 	cryptsyService.bindOrderbook(169, function(data) {
 		orderbookStatsService.push(data);
 		$scope.orderState = orderbookStatsService.getState();
+		detectionService.process();
 	});
 	$scope.tab = 'instant';
 }]);

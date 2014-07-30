@@ -137,7 +137,8 @@ app.service('tradeStatsService', ['notifyService',function (notifyService) {
 				lastPrice: state.lastPrice, 
 				priceDelta: state.priceDelta,
 				deltaT: this.deltaT(),
-				timelength: state.timelength
+				timelength: state.timelength,
+				previous10: previous10
 			};
 		},
 		removeOlder: function() {
