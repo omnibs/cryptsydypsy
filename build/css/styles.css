@@ -1,0 +1,49 @@
+
+/* ---> Do not delete this comment (Fonts) <--- */
+/*======================================================================
+=            Import all your .scss files, order is very important
+
+	(The file which is not imported will not be include in final build )
+
+	CSS - All the css files will be loaded in the order they appear 
+		in the app/css directory
+========================================================================*/
+/*
+  To use bootstrap-sass-official run:
+  bower install --save bootstrap-sass-official
+
+  Then uncomment the two lines below:
+*/
+.orders table{
+		border: 1px solid;
+		height: 400px;
+		display: block;
+		overflow-y: scroll;
+		margin-left: 10px;
+	}
+.orders{
+		margin-top: -56px;
+		margin-left: 40px;
+}
+.trades{
+	float:left;
+}
+div.orders{
+	float: left;
+}
+td{
+	padding: 5px;
+}
+thead th{
+	border-bottom: 1px solid black;
+}
+tbody > tr > td {
+	line-height: 1.428571429;
+	vertical-align: top;
+	border-top: 1px solid #dddddd;
+}
+tbody > tr:nth-child(odd) > td {
+	background-color: #f9f9f9;
+}
+.pos{color:green}
+.neg{color:red}

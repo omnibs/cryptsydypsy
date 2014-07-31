@@ -99,7 +99,7 @@ gulp.task('concat:bower', function () {
 
 	gulpPlugins.bowerFiles()
 		.pipe(jsFilter)
-		.pipe(gulpPlugins.concat('_bower.js'))
+		.pipe(gulpPlugins.concat('bower.js'))
 		.pipe(gulpPlugins.if(isProduction, gulpPlugins.uglify()))
 		.pipe(gulp.dest(SETTINGS.build.bower))
 		.pipe(jsFilter.restore())
@@ -125,7 +125,7 @@ gulp.task('concat:bower', function () {
 
 			callback(null, file);
 		}))
-		.pipe(gulpPlugins.concat('_bower.css'))
+		.pipe(gulpPlugins.concat('bower.css'))
 		.pipe(gulp.dest(SETTINGS.build.bower))
 		.pipe(cssFilter.restore())
 		.pipe(assetsFilter)
@@ -134,7 +134,7 @@ gulp.task('concat:bower', function () {
 		.pipe(gulpPlugins.connect.reload());
 });
 
-gulp.task('concat:js', ['js:hint'], function () {
+gulp.task('concat:js', /*['js:hint'],*/ function () {
 
 	console.log('-------------------------------------------------- CONCAT :js');
 	gulp.src([SETTINGS.src.js + 'plugins/*.js', SETTINGS.src.js + 'app.js', SETTINGS.src.js + '*.js', SETTINGS.src.js + '**/*.js'])
