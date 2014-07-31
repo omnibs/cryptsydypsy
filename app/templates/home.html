@@ -2,7 +2,7 @@
 
 <p>Last Trade: {{model.lastTrade.total}} BTC 
 	@ {{model.lastTrade.price.toString().replace('.','')-0}} SAT <timeless time="model.lastTrade.timeArrived"></timeless> </p>
-<p>Price Delta: {{(model.last5.priceDelta*100).toFixed(2)}}% in 5min</p>
+<p>$Δ {{(model.last5.priceDelta*100).toFixed(2)}}% in 5min</p>
 <table ng-if="model" class="trades">
 	<thead>
 		<th>Range</th>
@@ -39,15 +39,15 @@
 			<thead>
 				<th>Price</th>
 				<th>Amount</th>
-				<th>Delta</th>
-				<th>Acc</th>
+				<th>Δ</th>
+				<th>Σ</th>
 			</thead>
 			<tbody>
 				<tr ng-repeat="item in orderState.orderbook[tab] | orderStuff: 'asc': orderState.curSell track by item.price">
 					<td>{{item.price}}</td>
 					<td>{{item.value.toFixed(4)}}</td>
-					<td>{{item.delta.toFixed(3)}}</td>
-					<td>{{item.cumulative.toFixed(3)}}</td>
+					<td ng-class="{pos: item.delta>0, neg: item.delta<0}">{{item.delta.toFixed(3)}}</td>
+					<td ng-class="{pos: item.cumulative>0, neg: item.cumulative<0}">{{item.cumulative.toFixed(3)}}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -58,15 +58,15 @@
 			<thead>
 				<th>Price</th>
 				<th>Amount</th>
-				<th>Delta</th>
-				<th>Acc</th>
+				<th>Δ</th>
+				<th>Σ</th>
 			</thead>
 			<tbody>
 				<tr ng-repeat="item in orderState.orderbook[tab] | orderStuff: 'desc': orderState.curBuy track by item.price">
 					<td>{{item.price}}</td>
 					<td>{{item.value.toFixed(4)}}</td>
-					<td>{{item.delta.toFixed(3)}}</td>
-					<td>{{item.cumulative.toFixed(3)}}</td>
+					<td ng-class="{pos: item.delta>0, neg: item.delta<0}">{{item.delta.toFixed(3)}}</td>
+					<td ng-class="{pos: item.cumulative>0, neg: item.cumulative<0}">{{item.cumulative.toFixed(3)}}</td>
 				</tr>
 			</tbody>
 		</table>

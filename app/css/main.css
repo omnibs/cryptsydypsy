@@ -29,3 +29,5 @@ tbody > tr > td {
 tbody > tr:nth-child(odd) > td {
 	background-color: #f9f9f9;
 }
+.pos{color:green}
+.neg{color:red}
