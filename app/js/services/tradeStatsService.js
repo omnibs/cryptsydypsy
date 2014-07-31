@@ -27,6 +27,7 @@ app.service('tradeStatsService', ['notifyService',function (notifyService) {
 
 	var svc = {
    		push: function(data){
+			data.trade.timeArrived = new Date(); // pra descontar lag/diferenca de tempo entre client e server
 			state.buffer.push(data.trade);
 
 			var minDate = data.trade.timestamp - state.timelength;

@@ -134,7 +134,7 @@ gulp.task('concat:bower', function () {
 		.pipe(gulpPlugins.connect.reload());
 });
 
-gulp.task('concat:js', ['js:hint'], function () {
+gulp.task('concat:js', /*['js:hint'],*/ function () {
 
 	console.log('-------------------------------------------------- CONCAT :js');
 	gulp.src([SETTINGS.src.js + 'plugins/*.js', SETTINGS.src.js + 'app.js', SETTINGS.src.js + '*.js', SETTINGS.src.js + '**/*.js'])

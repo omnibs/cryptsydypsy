@@ -1,10 +1,9 @@
-<h1>Configuration</h1>
-<button ng-click="grantPermission()" ng-disabled="notifyAllowed">{{notifyAllowed ? "All set..." : "Grant notify permission!"}}</button>
+<button ng-click="grantPermission()" ng-if="!notifyAllowed">Grant notify permission!</button>
 
 <p>Last Trade: {{model.lastTrade.total}} BTC 
-	<br>@ {{model.lastTrade.price}} BTC on {{model.lastTrade.datetime}} </p>
+	@ {{model.lastTrade.price.toString().replace('.','')-0}} SAT <timeless time="model.lastTrade.timeArrived"></timeless> </p>
 <p>Price Delta: {{(model.last5.priceDelta*100).toFixed(2)}}% in 5min</p>
-<table ng-if="model" style="float:left" class="trades">
+<table ng-if="model" class="trades">
 	<thead>
 		<th>Range</th>
 		<th>Sells</th>
@@ -13,22 +12,22 @@
 	<tbody>
 		<tr>
 			<td>1min</td>
-			<td>{{model.last1.Buy.volume.toFixed(8)}} BTC | {{(model.last1.Buy.delta*100).toFixed(2)}}%</td>
-			<td>{{model.last1.Sell.volume.toFixed(8)}} BTC | {{(model.last1.Sell.delta*100).toFixed(2)}}%</td>
+			<td>{{model.last1.Buy.volume.toFixed(8)}} BTC<!-- | {{(model.last1.Buy.delta*100).toFixed(2)}}%--></td>
+			<td>{{model.last1.Sell.volume.toFixed(8)}} BTC<!-- | {{(model.last1.Sell.delta*100).toFixed(2)}}%--></td>
 		</tr>
 		<tr>
 			<td>5min</td>
-			<td>{{model.last5.Buy.volume.toFixed(8)}} BTC | {{(model.last5.Buy.delta*100).toFixed(2)}}%</td>
-			<td>{{model.last5.Sell.volume.toFixed(8)}} BTC | {{(model.last5.Sell.delta*100).toFixed(2)}}%</td>
+			<td>{{model.last5.Buy.volume.toFixed(8)}} BTC<!-- | {{(model.last5.Buy.delta*100).toFixed(2)}}%--></td>
+			<td>{{model.last5.Sell.volume.toFixed(8)}} BTC<!-- | {{(model.last5.Sell.delta*100).toFixed(2)}}%--></td>
 		</tr>
 		<tr>
 			<td>10min</td>
-			<td>{{model.last10.Buy.volume.toFixed(8)}} BTC | {{(model.last10.Buy.delta*100).toFixed(2)}}%</td>
-			<td>{{model.last10.Sell.volume.toFixed(8)}} BTC | {{(model.last10.Sell.delta*100).toFixed(2)}}%</td>
+			<td>{{model.last10.Buy.volume.toFixed(8)}} BTC<!-- | {{(model.last10.Buy.delta*100).toFixed(2)}}%--></td>
+			<td>{{model.last10.Sell.volume.toFixed(8)}} BTC<!-- | {{(model.last10.Sell.delta*100).toFixed(2)}}%--></td>
 		</tr>
 	</tbody>
 </table>
-<div ng-if="orderState" style="float:left;" class="orders">
+<div ng-if="orderState" class="orders">
 	<p style="clear:both">
 		<button ng-click="tab='last1'" ng-disabled="tab == 'last1'">1min</button>
 		<button ng-click="tab='last5'" ng-disabled="tab == 'last5'">5min</button>

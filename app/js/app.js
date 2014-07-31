@@ -4,7 +4,7 @@
 ==================================================================*/
 /*global angular*/
 
-var app = angular.module('ngDump', ["ngCookies", "ngRoute", "ngAnimate"]);
+var app = angular.module('ngDump', ["ngCookies", "ngRoute", "ngAnimate", "Timeless"]);
 
 
 app.config(['$routeProvider', '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider) {
