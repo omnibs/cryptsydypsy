@@ -2,11 +2,9 @@ app.filter('orderStuff', [function () {
     return function (items, order, stopOrStart) {
         if (!angular.isUndefined(items)) {
            	if (order == 'asc')
-           		return items.concat().splice(stopOrStart-1);
-
+           		return items.filter(function (v) { return v.price >= stopOrStart });
            	else
-				return items.concat().splice(0, stopOrStart).reverse();
-
+              return items.filter(function (v) { return v.price <= stopOrStart }).reverse();
         } else {
             return item;
         }

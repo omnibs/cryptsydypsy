@@ -19,7 +19,7 @@ app.service('detectionService', ['notifyService', 'tradeStatsService', 'orderboo
 				return {v:v,p:i};
 			})
 			.filter(function (v, i) {
-				return v.v > 15;
+				return v.v > 15 && v.p < 80;
 			});
 
 			if (bigmoves.length > 0){
