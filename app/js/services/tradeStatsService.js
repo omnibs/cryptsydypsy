@@ -71,10 +71,10 @@ app.service('tradeStatsService', ['notifyService',function (notifyService) {
 			for (var i = state.buffer.length -1; i >= 0; i--) {
 				var item = state.buffer[i];
 
-				if (item.timestamp > maxDate)
+				if ((item.timeArrived.getTime() / 1000) > maxDate)
 					continue;
 
-				if (item.timestamp < minDate)
+				if ((item.timeArrived.getTime() / 1000) < minDate)
 					break;
 
 				var vol = item.total-0;
@@ -114,7 +114,8 @@ app.service('tradeStatsService', ['notifyService',function (notifyService) {
 				last5: last5, 
 				last10: last10, 
 				previous10: previous10,
-				lastTrade: this.lastTrade()
+				lastTrade: this.lastTrade(),
+				lastTrades: state.buffer.concat().splice(-10,10).reverse()
 			};
 		}
 	};

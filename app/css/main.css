@@ -1,19 +1,47 @@
+* {
+	font-family: sans-serif;
+}
+.orders{
+	margin-left: 10px;
+}
+button{
+	border: none;
+	text-decoration: none;
+	line-height: 30px;
+	padding: 0px 10px 0px 10px;
+	border-radius: 5px;
+	font-weight: bold;
+	font-size: large;
+}
 .orders table{
 		border: 1px solid;
 		height: 400px;
 		display: block;
 		overflow-y: scroll;
-		margin-left: 10px;
+		
 	}
-.orders{
-		margin-top: -56px;
-		margin-left: 40px;
+.orders label{
+	font-size: larger;
+	font-weight: bold;
+}
+.orders span{
+	float: right;
+	margin-right: 10px;
+	font-weight: bold;
+}
+.orders:last-of-type span{
+	float:none;
+}
+.orders:last-of-type label{
+	margin-left: 65px;
+}
+h1{
+	padding-left: 10px;
+	margin-top: -7px;
+	color: red;
 }
 .trades{
-	float:left;
-}
-div.orders{
-	float: left;
+	width:450px;
 }
 td{
 	padding: 5px;
@@ -29,5 +57,11 @@ tbody > tr > td {
 tbody > tr:nth-child(odd) > td {
 	background-color: #f9f9f9;
 }
-.pos{color:green}
-.neg{color:red}
+.pos{color:green; font-weight: bold;}
+.neg{color:red;font-weight: bold;}
+p{margin:2.5px;}
+.last-orders{
+	clear: both;
+	width: 510px;
+	padding-top: 15px;
+}
