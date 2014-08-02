@@ -88,6 +88,28 @@
 
       };
 
+    var applies = [];
+    setInterval(function () {
+      if (applies && applies.length > 0){
+        for (var i = 0; i < applies.length; i++){
+          var fun = applies[i].fn;
+          fun();
+        }
+      }
+    }, 1000);
+
+    var guid = (function() {
+      function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+                   .toString(16)
+                   .substring(1);
+      }
+      return function() {
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+               s4() + '-' + s4() + s4() + s4();
+      };
+    })();
+
     return {
       transclude: true,
       restrict: 'E',
@@ -99,6 +121,7 @@
           type: '='
       },
       link: function(scope, element, attrs) {
+        console.log("created: " + scope.$id);
         angular.extend(Timeless.labels, scope.options);
         var estimateTime = Timeless.estimate(typeof scope.time === 'string' ? new Date(scope.time) : scope.time)
           , setTimeType;
@@ -110,14 +133,32 @@
           setTimeType = Timeless.labels.timeType[scope.type];
         }
         setTimeout(function() {
-            return element.text(estimateTime[setTimeType]);
+            element.text(estimateTime[setTimeType]);
         }, 1);
-        setInterval(function () {
-          scope.$apply(function () {
-            var estimateTime = Timeless.estimate(typeof scope.time === 'string' ? new Date(scope.time) : scope.time);
-            return element.text(estimateTime[setTimeType]);
-          });
-        }, Timeless.labels.updateInterval);
+
+        scope.refreshFn = {
+          id: scope.$id, 
+          fn: function() {
+            scope.$apply(function () {
+              var estimateTime = Timeless.estimate(typeof scope.time === 'string' ? new Date(scope.time) : scope.time);
+              element.text(estimateTime[setTimeType]);
+            });
+          }
+        };
+        applies.push(scope.refreshFn);
+        console.log('length: ' + applies.length);
+
+        scope.$on('$destroy', function() {
+          console.log("destroy: " + scope.$id);
+          for (var i = 0; i < applies.length; i++) {
+            var item = applies[i];
+            if (item.id == scope.$id){
+              applies.splice(i, 1);
+              console.log('matamos: ' + scope.$id);
+              console.log('length: ' + applies.length);
+            }
+          };
+        });
       }
     };
   });
