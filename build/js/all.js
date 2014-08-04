@@ -309,7 +309,7 @@ app.service('detectionService', ['notifyService', 'tradeStatsService', 'orderboo
 				return {v:v,p:i};
 			})
 			.filter(function (v, i) {
-				return v.v > 12 && v.p > state.curBuy * 0.8 && v.p < state.curSell * 1.2;
+				return v.v > 12 && v.p >= state.curBuy * 0.8 && v.p <= state.curSell * 1.2;
 			});
 
 			if (bigmoves.length > 0){
