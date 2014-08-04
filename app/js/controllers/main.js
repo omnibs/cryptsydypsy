@@ -1,17 +1,17 @@
-app.controller('mainCtl', ['$scope', 'notifyService','cryptsyService', 'tradeStatsService','orderbookStatsService','detectionService'
-,function($scope, notifyService, cryptsyService, tradeStatsService, orderbookStatsService, detectionService) {
+app.controller('mainCtl', ['$scope', 'notifyService','cryptsyService', 'tradeStatsService','orderbookStatsService','detectionService', 'market'
+,function($scope, notifyService, cryptsyService, tradeStatsService, orderbookStatsService, detectionService, market) {
 	$scope.grantPermission = function() {
 		notifyService.allow();
 	}
 	$scope.notifyAllowed = notifyService.isAllowed();
 
-	cryptsyService.bind(169, function(data) {
+	cryptsyService.bind(market.id, function(data) {
 		tradeStatsService.push(data);
 		$scope.model = tradeStatsService.getState();
 		$scope.$apply();
 		detectionService.process();
 	});
-	cryptsyService.bindOrderbook(169, function(data) {
+	cryptsyService.bindOrderbook(market.id, function(data) {
 		orderbookStatsService.push(data);
 		$scope.orderState = orderbookStatsService.getState();
 		detectionService.process();

@@ -6,9 +6,10 @@
 
 var app = angular.module('ngDump', ["ngCookies", "ngRoute", "ngAnimate", "Timeless"]);
 
-
-app.config(['$routeProvider', '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider) {
+app.config(['$routeProvider', '$locationProvider', '$httpProvider', '$provide', function ($routeProvider, $locationProvider, $httpProvider, $provide) {
 	'use strict';
+
+	$provide.constant('market', { id: 169});
 
 	$routeProvider
 		.when('/home', {

@@ -6,9 +6,10 @@
 
 var app = angular.module('ngDump', ["ngCookies", "ngRoute", "ngAnimate", "Timeless"]);
 
-
-app.config(['$routeProvider', '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider) {
+app.config(['$routeProvider', '$locationProvider', '$httpProvider', '$provide', function ($routeProvider, $locationProvider, $httpProvider, $provide) {
 	'use strict';
+
+	$provide.constant('market', { id: 169});
 
 	$routeProvider
 		.when('/home', {
@@ -43,20 +44,20 @@ app.run(['$rootScope', function ($rootScope) {
 /* ---> Do not delete this comment (Values) <--- */
 
 /* ---> Do not delete this comment (Constants) <--- */
-app.controller('mainCtl', ['$scope', 'notifyService','cryptsyService', 'tradeStatsService','orderbookStatsService','detectionService'
-,function($scope, notifyService, cryptsyService, tradeStatsService, orderbookStatsService, detectionService) {
+app.controller('mainCtl', ['$scope', 'notifyService','cryptsyService', 'tradeStatsService','orderbookStatsService','detectionService', 'market'
+,function($scope, notifyService, cryptsyService, tradeStatsService, orderbookStatsService, detectionService, market) {
 	$scope.grantPermission = function() {
 		notifyService.allow();
 	}
 	$scope.notifyAllowed = notifyService.isAllowed();
 
-	cryptsyService.bind(169, function(data) {
+	cryptsyService.bind(market.id, function(data) {
 		tradeStatsService.push(data);
 		$scope.model = tradeStatsService.getState();
 		$scope.$apply();
 		detectionService.process();
 	});
-	cryptsyService.bindOrderbook(169, function(data) {
+	cryptsyService.bindOrderbook(market.id, function(data) {
 		orderbookStatsService.push(data);
 		$scope.orderState = orderbookStatsService.getState();
 		detectionService.process();
@@ -308,7 +309,7 @@ app.service('detectionService', ['notifyService', 'tradeStatsService', 'orderboo
 				return {v:v,p:i};
 			})
 			.filter(function (v, i) {
-				return v.v > 15 && v.p < 80;
+				return v.v > 12 && v.p > state.curBuy * 0.8 && v.p < state.curSell * 1.2;
 			});
 
 			if (bigmoves.length > 0){
@@ -326,9 +327,7 @@ app.service('detectionService', ['notifyService', 'tradeStatsService', 'orderboo
 			var state = tradeStatsService.getState();
 			if (cooldown.pump || !state.cumulative || !state.cumulative.last1) return;
 
-			if ((state.last1.Buy.volume / state.previous10.Buy.volume) >= 1
-				&& state.last5.Buy.volume > 10
-				&& state.last1.Buy.volume > state.last1.Sell.volume) {
+			if (state.last5.Buy.volume > 10) {
 
 				var msg = 'Movimentação grande e súbita:\r\n' + state.last1.Buy.volume;
 				notifyService.notify('Pump?', msg, alertSound);
@@ -344,9 +343,7 @@ app.service('detectionService', ['notifyService', 'tradeStatsService', 'orderboo
 
 			var state = tradeStatsService.getState();
 
-			if ((state.last1.Buy.volume / state.previous10.Sell.Volume) >= 1
-				&& state.last5.Sell.volume > 10
-				&& state.last1.Buy.volume < state.last1.Sell.volume) {
+			if (state.last5.Sell.volume > 10) {
 
 				var msg = 'Movimentação grande e súbita:\r\n' + state.last1.Sell.volume;
 				notifyService.notify('Dump?', msg, alertSound);
