@@ -19,7 +19,7 @@ app.service('detectionService', ['notifyService', 'tradeStatsService', 'orderboo
 				return {v:v,p:i};
 			})
 			.filter(function (v, i) {
-				return v.v > 15 && v.p < 80;
+				return v.v > 12 && v.p > state.curBuy * 0.8 && v.p < state.curSell * 1.2;
 			});
 
 			if (bigmoves.length > 0){
@@ -37,9 +37,7 @@ app.service('detectionService', ['notifyService', 'tradeStatsService', 'orderboo
 			var state = tradeStatsService.getState();
 			if (cooldown.pump || !state.cumulative || !state.cumulative.last1) return;
 
-			if ((state.last1.Buy.volume / state.previous10.Buy.volume) >= 1
-				&& state.last5.Buy.volume > 10
-				&& state.last1.Buy.volume > state.last1.Sell.volume) {
+			if (state.last5.Buy.volume > 10) {
 
 				var msg = 'Movimentação grande e súbita:\r\n' + state.last1.Buy.volume;
 				notifyService.notify('Pump?', msg, alertSound);
@@ -55,9 +53,7 @@ app.service('detectionService', ['notifyService', 'tradeStatsService', 'orderboo
 
 			var state = tradeStatsService.getState();
 
-			if ((state.last1.Buy.volume / state.previous10.Sell.Volume) >= 1
-				&& state.last5.Sell.volume > 10
-				&& state.last1.Buy.volume < state.last1.Sell.volume) {
+			if (state.last5.Sell.volume > 10) {
 
 				var msg = 'Movimentação grande e súbita:\r\n' + state.last1.Sell.volume;
 				notifyService.notify('Dump?', msg, alertSound);
