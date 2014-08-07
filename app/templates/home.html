@@ -1,5 +1,5 @@
 <button ng-click="grantPermission()" ng-if="!notifyAllowed">Grant notify permission!</button>
-
+<div class="market">
 <p>Last Trade: {{model.lastTrade.total}} BTC 
 	@ {{model.lastTrade.price.toString().replace('.','')-0}} SAT <timeless time="model.lastTrade.timeArrived"></timeless> </p>
 <p>$Δ {{(model.last5.priceDelta*100).toFixed(2)}}% in 5min</p>
@@ -69,3 +69,8 @@
 		</tr>
 	</tbody>
 </table>
+</div>
+<div class="chat">
+<label>Chat</label>
+<div id="chatcontent"></div>
+</div>

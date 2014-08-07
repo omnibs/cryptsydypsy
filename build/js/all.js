@@ -275,6 +275,58 @@ app.service('cryptsyService', ['$http', '$interval', '$window', function ($http,
 		  	var pusher = new Pusher('cb65d0a7a72cd94adf1f', {encrypted: true});
 			var channel = pusher.subscribe('trade.' + market);
 			channel.bind("message", callback);
+
+			var pusher2 = new Pusher('41629b0417bad133acb8');
+            var chatchannel = pusher2.subscribe('chat');
+            chatchannel.bind('message', function(data) {
+				var userhandle = '<span onclick="replyto(\'' + data.handle + '\')" ondblclick="chatoptions(\'' + data.handle + '\')" style="cursor:pointer;">' + data.handle + '</span>';
+
+				if (data.modstatus == 3)
+				{
+					msg = "<b><span style='color:green;'>" + userhandle + "</span></b><br /><span style='color:#666666;'><i>" + data.text + "</i></span>";
+				}
+				else if (data.modstatus == 1)
+				{
+				
+					if (data.handle == 'NetworkAdmin')
+					{
+						msg = "<b><span style='color:#800080;'>" + userhandle + "</span></b><br /><span style='color:#666666;'>" + data.text + "</span>";
+					}
+					else
+					{
+						msg = "<b><span style='color:blue;'>" + userhandle + "</span></b><br /><span style='color:#666666;'>" + data.text + "</span>";
+					}
+				
+				}
+				else if (data.modstatus == 2)
+				{
+					msg = "<b><span style='color:red;'>" + userhandle + "</span></b><br /><span style='color:#666666;'>" + data.text + "</span>";
+				}
+				else
+				{				
+					msg = "<b>" + userhandle + "</b><br /><span style='color:#666666;'>" + data.text + "</span>";
+				}
+				
+				var chatcontent = "<div style='padding: 2px; padding-top:5px; padding-bottom:5px; border-bottom:1px solid #cccccc;'>" + msg + "</div>";
+
+				var innheight = $('#chatcontent').innerHeight();
+				var scrtop = $('#chatcontent').scrollTop();
+				var scrheight2 = $("#chatcontent").get(0).scrollHeight;
+
+				var totheight = innheight + scrtop;
+
+				var atbottom = false;
+				if (totheight == scrheight2)
+				{
+					atbottom = true;
+				}
+
+				$('#chatcontent').append(chatcontent);
+				if (atbottom)
+				{
+					$("#chatcontent").animate({ scrollTop: $("#chatcontent")[0].scrollHeight}, 800);	
+				}
+            });
 		},
 		bindOrderbook: function(market, myCallback) {
 			$interval(function() {
@@ -320,7 +372,7 @@ app.service('detectionService', ['notifyService', 'tradeStatsService', 'orderboo
 
 				setTimeout(function(arguments) {
 					cooldown.fakeWallMovida = false;
-				},1000*60);
+				},1000*70);
 			}
 		},
 		pump: function(){
@@ -329,13 +381,13 @@ app.service('detectionService', ['notifyService', 'tradeStatsService', 'orderboo
 
 			if (state.last5.Buy.volume > 10) {
 
-				var msg = 'Movimentação grande e súbita:\r\n' + state.last1.Buy.volume;
+				var msg = 'Movimentação grande e súbita:\r\n' + state.last5.Buy.volume;
 				notifyService.notify('Pump?', msg, alertSound);
 				cooldown.pump = true;
 
 				setTimeout(function(arguments) {
 					cooldown.pump = false;
-				},1000*60);
+				},2000*60);
 			}
 		},
 		dump: function(){
@@ -345,13 +397,13 @@ app.service('detectionService', ['notifyService', 'tradeStatsService', 'orderboo
 
 			if (state.last5.Sell.volume > 10) {
 
-				var msg = 'Movimentação grande e súbita:\r\n' + state.last1.Sell.volume;
+				var msg = 'Movimentação grande e súbita:\r\n' + state.last5.Sell.volume;
 				notifyService.notify('Dump?', msg, alertSound);
 				cooldown.dump = true;
 
 				setTimeout(function(arguments) {
 					cooldown.dump = false;
-				},1000*60);
+				},2000*60);
 			}
 		}
 	}

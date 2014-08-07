@@ -30,7 +30,7 @@ app.service('detectionService', ['notifyService', 'tradeStatsService', 'orderboo
 
 				setTimeout(function(arguments) {
 					cooldown.fakeWallMovida = false;
-				},1000*60);
+				},1000*70);
 			}
 		},
 		pump: function(){
@@ -39,13 +39,13 @@ app.service('detectionService', ['notifyService', 'tradeStatsService', 'orderboo
 
 			if (state.last5.Buy.volume > 10) {
 
-				var msg = 'Movimentação grande e súbita:\r\n' + state.last1.Buy.volume;
+				var msg = 'Movimentação grande e súbita:\r\n' + state.last5.Buy.volume;
 				notifyService.notify('Pump?', msg, alertSound);
 				cooldown.pump = true;
 
 				setTimeout(function(arguments) {
 					cooldown.pump = false;
-				},1000*60);
+				},2000*60);
 			}
 		},
 		dump: function(){
@@ -55,13 +55,13 @@ app.service('detectionService', ['notifyService', 'tradeStatsService', 'orderboo
 
 			if (state.last5.Sell.volume > 10) {
 
-				var msg = 'Movimentação grande e súbita:\r\n' + state.last1.Sell.volume;
+				var msg = 'Movimentação grande e súbita:\r\n' + state.last5.Sell.volume;
 				notifyService.notify('Dump?', msg, alertSound);
 				cooldown.dump = true;
 
 				setTimeout(function(arguments) {
 					cooldown.dump = false;
-				},1000*60);
+				},2000*60);
 			}
 		}
 	}
