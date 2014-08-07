@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptsyApi", "CryptsyApi\CryptsyApi.csproj", "{016256CD-AF37-4B1A-9DAF-7C6A228537BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PusherClient", "PusherClient\PusherClient.csproj", "{9E30E755-C00E-4BF7-B56B-8F2D836FBA60}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{016256CD-AF37-4B1A-9DAF-7C6A228537BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{016256CD-AF37-4B1A-9DAF-7C6A228537BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{016256CD-AF37-4B1A-9DAF-7C6A228537BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{016256CD-AF37-4B1A-9DAF-7C6A228537BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E30E755-C00E-4BF7-B56B-8F2D836FBA60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E30E755-C00E-4BF7-B56B-8F2D836FBA60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E30E755-C00E-4BF7-B56B-8F2D836FBA60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E30E755-C00E-4BF7-B56B-8F2D836FBA60}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

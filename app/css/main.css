@@ -75,5 +75,6 @@ p{margin:2.5px;}
 }
 #chatcontent{
 	height: 552px;
-	overflow: scroll;
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
