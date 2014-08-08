@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using CryptoWorks.Cryptsy;
-using CryptoWorks.Cryptsy.Entities;
+using CryptsyApi.Cryptsy.Entities;
 
 namespace CryptsyApi
 {

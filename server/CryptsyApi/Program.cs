@@ -17,19 +17,21 @@ namespace CryptsyApi
         static void Main()
         {
             var config = new HttpSelfHostConfiguration("http://localhost:777");
-
-            config.Routes.MapHttpRoute(
-                "API Default", "api/{controller}/{id}",
-                new { id = RouteParameter.Optional });
-
             using (var server = new HttpSelfHostServer(config))
             {
-                server.OpenAsync().Wait();
-            }
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+                config.Routes.MapHttpRoute(
+                    "API Default", "api/{controller}/{id}",
+                    new { id = RouteParameter.Optional });
+
+
+                server.OpenAsync().Wait();
+                Console.ReadLine();
+
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new MainForm());
+            }
         }
     }
 }
