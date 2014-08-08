@@ -12,7 +12,7 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider', '$provide', 
 	$provide.constant('market', { id: 169});
 
 	$routeProvider
-		.when('/home', {
+		.when('/home/:userid', {
 			controller: 'mainCtl',
 			templateUrl: 'templates/home.html'
 		})
@@ -44,8 +44,10 @@ app.run(['$rootScope', function ($rootScope) {
 /* ---> Do not delete this comment (Values) <--- */
 
 /* ---> Do not delete this comment (Constants) <--- */
-app.controller('mainCtl', ['$scope', 'notifyService','cryptsyService', 'tradeStatsService','orderbookStatsService','detectionService', 'chatService', 'market'
-,function($scope, notifyService, cryptsyService, tradeStatsService, orderbookStatsService, detectionService, chatService, market) {
+app.controller('mainCtl', ['$scope', 'notifyService','cryptsyService', 'tradeStatsService','orderbookStatsService','detectionService', 'chatService',
+ 'userService', 'market', '$routeParams'
+,function($scope, notifyService, cryptsyService, tradeStatsService, orderbookStatsService, detectionService, chatService, userService,
+   market, $routeParams) {
 	$scope.grantPermission = function() {
 		notifyService.allow();
 	}
@@ -65,6 +67,12 @@ app.controller('mainCtl', ['$scope', 'notifyService','cryptsyService', 'tradeSta
 	cryptsyService.bindChat( function(data) {
 		chatService.push(data);
 	});
+
+	if ($routeParams.userid) {
+		cryptsyService.bindUserData($routeParams.userid, function(data) {
+			userService.push(data);
+		});
+	}
 
 	$scope.tab = 'last1';
 }]);
@@ -335,10 +343,16 @@ app.service('cryptsyService', ['$http', '$interval', '$window', '$location', fun
             var chatchannel = pusher2.subscribe('chat');
             chatchannel.bind('message', callback);
 		},
+		bindUserData: function(userId, callback){
+			if (!("Pusher" in window)) throw "Pusher not loaded";
+
+			var pusher = new Pusher('37c5733bcd7279503510');
+            var userChannel = pusher.subscribe('user' + userId);
+            userChannel.bind('message', callback);
+		},		
 		bind: function(market, callback) {
 			if (!("Pusher" in window)) throw "Pusher not loaded";
 		  	
-		  	var userId = $location.search('userid');
 		  	var pusher = new Pusher('cb65d0a7a72cd94adf1f', {encrypted: true});
 			var channel = pusher.subscribe('trade.' + market);
 			channel.bind("message", callback);
@@ -670,6 +684,14 @@ app.service('tradeStatsService', ['notifyService',function (notifyService) {
 				lastTrade: this.lastTrade(),
 				lastTrades: state.buffer.concat().splice(-10,10).reverse()
 			};
+		}
+	};
+
+	return svc;
+}]);
+app.service('userService', ['notifyService',function (notifyService) {
+	var svc = {
+		push:function(data) {
 		}
 	};
 

@@ -12,7 +12,7 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider', '$provide', 
 	$provide.constant('market', { id: 169});
 
 	$routeProvider
-		.when('/home', {
+		.when('/home/:userid', {
 			controller: 'mainCtl',
 			templateUrl: 'templates/home.html'
 		})

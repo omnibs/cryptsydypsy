@@ -7,10 +7,16 @@ app.service('cryptsyService', ['$http', '$interval', '$window', '$location', fun
             var chatchannel = pusher2.subscribe('chat');
             chatchannel.bind('message', callback);
 		},
+		bindUserData: function(userId, callback){
+			if (!("Pusher" in window)) throw "Pusher not loaded";
+
+			var pusher = new Pusher('37c5733bcd7279503510');
+            var userChannel = pusher.subscribe('user' + userId);
+            userChannel.bind('message', callback);
+		},		
 		bind: function(market, callback) {
 			if (!("Pusher" in window)) throw "Pusher not loaded";
 		  	
-		  	var userId = $location.search('userid');
 		  	var pusher = new Pusher('cb65d0a7a72cd94adf1f', {encrypted: true});
 			var channel = pusher.subscribe('trade.' + market);
 			channel.bind("message", callback);

@@ -1,5 +1,7 @@
-app.controller('mainCtl', ['$scope', 'notifyService','cryptsyService', 'tradeStatsService','orderbookStatsService','detectionService', 'chatService', 'market'
-,function($scope, notifyService, cryptsyService, tradeStatsService, orderbookStatsService, detectionService, chatService, market) {
+app.controller('mainCtl', ['$scope', 'notifyService','cryptsyService', 'tradeStatsService','orderbookStatsService','detectionService', 'chatService',
+ 'userService', 'market', '$routeParams'
+,function($scope, notifyService, cryptsyService, tradeStatsService, orderbookStatsService, detectionService, chatService, userService,
+   market, $routeParams) {
 	$scope.grantPermission = function() {
 		notifyService.allow();
 	}
@@ -19,6 +21,12 @@ app.controller('mainCtl', ['$scope', 'notifyService','cryptsyService', 'tradeSta
 	cryptsyService.bindChat( function(data) {
 		chatService.push(data);
 	});
+
+	if ($routeParams.userid) {
+		cryptsyService.bindUserData($routeParams.userid, function(data) {
+			userService.push(data);
+		});
+	}
 
 	$scope.tab = 'last1';
 }]);
