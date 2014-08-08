@@ -18,7 +18,7 @@ namespace CryptsyApi
             CryptoWorks.Cryptsy.CryptsyApi.PublicKey = System.Configuration.ConfigurationManager.AppSettings["publicKey"];
             CryptoWorks.Cryptsy.CryptsyApi.PrivateKey =
                 System.Configuration.ConfigurationManager.AppSettings["privateKey"];
-            PusherTest();
+            //PusherTest();
         }
 
         private async void PusherTest()
