@@ -22,13 +22,16 @@ app.controller('mainCtl', ['$scope', 'notifyService','cryptsyService', 'tradeSta
 		chatService.push(data);
 	});
 
-	if ($routeParams.userid) {
-		cryptsyService.bindUserData($routeParams.userid, function(data) {
-			var call = userService.push(data);
+	if ($routeParams.userid) {		
+		var updateBalances = function(data) {
+			var call = userService.getInfo(data);
 			call.then(function(result){
 				$scope.userData = result;
 			});
-		});
+		}
+
+		cryptsyService.bindUserData($routeParams.userid, updateBalances);
+		updateBalances();
 	}
 
 	$scope.tab = 'last1';

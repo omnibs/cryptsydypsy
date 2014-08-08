@@ -237,6 +237,11 @@ namespace CryptoWorks.Cryptsy
         {
             var json = Base("getinfo");
 
+            if (json == null)
+            {
+                return new Info();
+            }
+
             var jObject = JObject.Parse(json);
             var value = jObject.GetValue("return");
 

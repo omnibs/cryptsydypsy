@@ -4,7 +4,7 @@ app.service('userService', ['notifyService', '$q', '$http',function (notifyServi
 		getInfo:function(data) {
             var deferred = $q.defer();
 
-            $http.get(baseUrl +'cryptsy/getInfo()')
+            $http.get(baseUrl +'cryptsy/getInfo')
                 .success(function (data, status) {
                     deferred.resolve(data);
                 })

@@ -74,5 +74,27 @@
 <label>Chat</label>
 <div id="chatcontent"></div>
 </div>
-<div class="userInfo">
+<div class="userInfo" ng-show="userData">
+	<table class="balances">
+		<thead>
+			<th>Coin</th>
+			<th>Available</th>
+			<th>Held in Orders</th>
+			<th>Total</th>
+		</thead>
+		<tbody>
+			<tr>
+				<td>BTC</td>
+				<td>{{userData.balances_available.BTC}}</td>
+				<td>{{userData.balances_hold.BTC}}</td>
+				<td>{{((userData.balances_available.BTC - 0) + (userData.balances_hold.BTC - 0)).toFixed(8)}}</td>
+			</tr>
+			<tr>
+				<td>RDD</td>
+				<td>{{userData.balances_available.RDD}}</td>
+				<td>{{userData.balances_hold.RDD}}</td>
+				<td>{{((userData.balances_available.RDD - 0) + (userData.balances_hold.RDD - 0)).toFixed(8)}}</td>
+			</tr>
+		</tbody>
+	</table>	
 </div>

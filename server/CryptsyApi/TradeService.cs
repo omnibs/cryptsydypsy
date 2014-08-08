@@ -85,6 +85,11 @@ namespace CryptsyApi
         {
             info = CryptoWorks.Cryptsy.CryptsyApi.GetInfo();
 
+            if (info.BalancesHold == null)
+            {
+                return;
+            }
+
             BtcHeld = Convert.ToDecimal(info.BalancesHold["BTC"] != null ? info.BalancesHold["BTC"].Value : 0);
             BtcAvailable = Convert.ToDecimal(info.BalancesAvailable["BTC"] != null ? info.BalancesAvailable["BTC"].Value : 0);
 

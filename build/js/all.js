@@ -72,13 +72,16 @@ app.controller('mainCtl', ['$scope', 'notifyService','cryptsyService', 'tradeSta
 		chatService.push(data);
 	});
 
-	if ($routeParams.userid) {
-		cryptsyService.bindUserData($routeParams.userid, function(data) {
-			var call = userService.push(data);
+	if ($routeParams.userid) {		
+		var updateBalances = function(data) {
+			var call = userService.getInfo(data);
 			call.then(function(result){
 				$scope.userData = result;
 			});
-		});
+		}
+
+		cryptsyService.bindUserData($routeParams.userid, updateBalances);
+		updateBalances();
 	}
 
 	$scope.tab = 'last1';
@@ -702,7 +705,7 @@ app.service('userService', ['notifyService', '$q', '$http',function (notifyServi
 		getInfo:function(data) {
             var deferred = $q.defer();
 
-            $http.get(baseUrl +'cryptsy/getInfo()')
+            $http.get(baseUrl +'cryptsy/getInfo')
                 .success(function (data, status) {
                     deferred.resolve(data);
                 })

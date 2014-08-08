@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.SelfHost;
 using System.Windows.Forms;
 
@@ -17,6 +18,8 @@ namespace CryptsyApi
         static void Main()
         {
             var config = new HttpSelfHostConfiguration("http://localhost:777");
+            config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
+
             using (var server = new HttpSelfHostServer(config))
             {
 

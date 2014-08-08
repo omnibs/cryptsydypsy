@@ -78,3 +78,6 @@ p{margin:2.5px;}
 	overflow-y: scroll;
 	overflow-x: hidden;
 }
+.balances{
+	text-align: right;
+}
