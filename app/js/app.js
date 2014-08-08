@@ -16,6 +16,10 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider', '$provide', 
 			controller: 'mainCtl',
 			templateUrl: 'templates/home.html'
 		})
+		.when('/home', {
+			controller: 'mainCtl',
+			templateUrl: 'templates/home.html'
+		})
 		.otherwise({
 			redirectTo: '/home'
 		});

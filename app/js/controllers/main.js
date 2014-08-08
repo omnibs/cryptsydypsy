@@ -18,13 +18,16 @@ app.controller('mainCtl', ['$scope', 'notifyService','cryptsyService', 'tradeSta
 		$scope.orderState = orderbookStatsService.getState();
 		detectionService.process();
 	});
-	cryptsyService.bindChat( function(data) {
+	cryptsyService.bindChat(function(data) {
 		chatService.push(data);
 	});
 
 	if ($routeParams.userid) {
 		cryptsyService.bindUserData($routeParams.userid, function(data) {
-			userService.push(data);
+			var call = userService.push(data);
+			call.then(function(result){
+				$scope.userData = result;
+			});
 		});
 	}
 

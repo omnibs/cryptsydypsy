@@ -16,6 +16,10 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider', '$provide', 
 			controller: 'mainCtl',
 			templateUrl: 'templates/home.html'
 		})
+		.when('/home', {
+			controller: 'mainCtl',
+			templateUrl: 'templates/home.html'
+		})
 		.otherwise({
 			redirectTo: '/home'
 		});
@@ -64,13 +68,16 @@ app.controller('mainCtl', ['$scope', 'notifyService','cryptsyService', 'tradeSta
 		$scope.orderState = orderbookStatsService.getState();
 		detectionService.process();
 	});
-	cryptsyService.bindChat( function(data) {
+	cryptsyService.bindChat(function(data) {
 		chatService.push(data);
 	});
 
 	if ($routeParams.userid) {
 		cryptsyService.bindUserData($routeParams.userid, function(data) {
-			userService.push(data);
+			var call = userService.push(data);
+			call.then(function(result){
+				$scope.userData = result;
+			});
 		});
 	}
 
@@ -689,9 +696,21 @@ app.service('tradeStatsService', ['notifyService',function (notifyService) {
 
 	return svc;
 }]);
-app.service('userService', ['notifyService',function (notifyService) {
+app.service('userService', ['notifyService', '$q', '$http',function (notifyService, $q, $http) {
+	var baseUrl = 'http://localhost:777/api/';
 	var svc = {
-		push:function(data) {
+		getInfo:function(data) {
+            var deferred = $q.defer();
+
+            $http.get(baseUrl +'cryptsy/getInfo()')
+                .success(function (data, status) {
+                    deferred.resolve(data);
+                })
+                .error(function (data, status) {
+                	deferred.reject({ error: data.Message });
+                });
+
+            return deferred.promise;
 		}
 	};
 
