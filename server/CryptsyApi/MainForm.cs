@@ -12,6 +12,10 @@ namespace CryptsyApi
 
         private Pusher _pusher = null;
 
+        private bool Active = true;
+
+        private Thread thread;
+
         public MainForm()
         {
             InitializeComponent();
@@ -33,38 +37,41 @@ namespace CryptsyApi
         {
 
             var chat = _pusher.Subscribe("chat");
-            chat.Bind("message", (dynamic data) =>
-            {
-                Console.WriteLine("[" + data.name + "] " + data.message);
-            });
+            chat.Bind("message", data => Console.WriteLine("[" + data.name + "] " + data.message));
         }
 
         private void UpdateInfo()
         {
             System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-            while (true)
+            while (Active)
             {
                 Thread.Sleep(1000);
                 TradeService.UpdateInfo();
 
-                Invoke(new Action(() =>
+                try
                 {
-                    btcAvailable.Text = TradeService.BtcAvailable.ToString(CultureInfo.InvariantCulture);
-                    btcHeld.Text = TradeService.BtcAvailable.ToString(CultureInfo.InvariantCulture);
-                    btcTotal.Text = TradeService.BtcTotal.ToString(CultureInfo.InvariantCulture);
+                    Invoke(new Action(() =>
+                    {
+                        btcAvailable.Text = TradeService.BtcAvailable.ToString(CultureInfo.InvariantCulture);
+                        btcHeld.Text = TradeService.BtcAvailable.ToString(CultureInfo.InvariantCulture);
+                        btcTotal.Text = TradeService.BtcTotal.ToString(CultureInfo.InvariantCulture);
 
-                    coinAval.Text = TradeService.CoinAvailable.ToString("#,#0.#0");
-                    coinHeld.Text = TradeService.CoinHeld.ToString("#,#0.#0");
-                    coinTotal.Text = TradeService.CoinTotal.ToString("#,#0.#0");
-                }));
-
+                        coinAval.Text = TradeService.CoinAvailable.ToString("#,#0.#0");
+                        coinHeld.Text = TradeService.CoinHeld.ToString("#,#0.#0");
+                        coinTotal.Text = TradeService.CoinTotal.ToString("#,#0.#0");
+                    }));
+                }
+                catch (System.InvalidOperationException ex)
+                {
+                    
+                }
             }
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            var t = new Thread(UpdateInfo);
-            t.Start();
+            thread = new Thread(UpdateInfo);
+            thread.Start();
         }
 
         private void putBuyBtn_Click(object sender, EventArgs e)
@@ -86,6 +93,39 @@ namespace CryptsyApi
         {
             TradeService.PutSellOrder(Convert.ToInt32(sellValueTextBox.Text), Convert.ToInt32(sellSplitTextBox.Text), Convert.ToDecimal(sellLimitTextBox.Text));
 
+        }
+
+        private void autobuyCkb_CheckedChanged(object sender, EventArgs e)
+        {
+            TradeService.AutoBuy = !TradeService.AutoBuy;
+        }
+
+        private void autobuyTxb_TextChanged(object sender, EventArgs e)
+        {
+            int number = 0;
+            if (Int32.TryParse(autobuyTxb.Text, out number))
+            {
+                TradeService.AutoBuyValue = number;
+            }
+        }
+
+        private void autosellTxb_TextChanged(object sender, EventArgs e)
+        {
+            int number = 0;
+            if (Int32.TryParse(autosellTxb.Text, out number))
+            {
+                TradeService.AutoSellValue = number;
+            }
+        }
+
+        private void autosellCkb_CheckedChanged(object sender, EventArgs e)
+        {
+            TradeService.AutoSell = !TradeService.AutoSell;
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Active = false;
         }
     }
 }

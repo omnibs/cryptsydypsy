@@ -132,6 +132,7 @@
             this.autobuyTxb.Name = "autobuyTxb";
             this.autobuyTxb.Size = new System.Drawing.Size(100, 22);
             this.autobuyTxb.TabIndex = 4;
+            this.autobuyTxb.TextChanged += new System.EventHandler(this.autobuyTxb_TextChanged);
             // 
             // label3
             // 
@@ -157,6 +158,7 @@
             this.autosellTxb.Name = "autosellTxb";
             this.autosellTxb.Size = new System.Drawing.Size(100, 22);
             this.autosellTxb.TabIndex = 7;
+            this.autosellTxb.TextChanged += new System.EventHandler(this.autosellTxb_TextChanged);
             // 
             // logBox
             // 
@@ -175,6 +177,7 @@
             this.autobuyCkb.TabIndex = 11;
             this.autobuyCkb.Text = "Auto-Buy @";
             this.autobuyCkb.UseVisualStyleBackColor = true;
+            this.autobuyCkb.CheckedChanged += new System.EventHandler(this.autobuyCkb_CheckedChanged);
             // 
             // autosellCkb
             // 
@@ -185,6 +188,7 @@
             this.autosellCkb.TabIndex = 12;
             this.autosellCkb.Text = "Auto-Sell @";
             this.autosellCkb.UseVisualStyleBackColor = true;
+            this.autosellCkb.CheckedChanged += new System.EventHandler(this.autosellCkb_CheckedChanged);
             // 
             // CancelBuyBtn
             // 
@@ -610,7 +614,7 @@
             this.label26.TabIndex = 53;
             this.label26.Text = "limit =";
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -662,8 +666,9 @@
             this.Controls.Add(this.autobuyTxb);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.comboBox1);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "Form1";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

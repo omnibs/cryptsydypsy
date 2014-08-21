@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using CryptoWorks.Cryptsy;
 using CryptsyApi.Cryptsy.Entities;
 
@@ -13,13 +14,26 @@ namespace CryptsyApi
         public static decimal BtcHeld { get; private set; }
         public static decimal BtcAvailable { get; private set; }
 
+        public static bool AutoBuy = false;
+
+        public static bool AutoSell = false;
+
+        public static int? AutoBuyValue { get; set; }
+
+        public static int? AutoSellValue { get; set; }
 
         public static Info UserInfo
         {
-            get { return info; }
+            get { return _info; }
         }
 
-        private static Info info = null;
+        private static Info _info = null;
+
+        static TradeService()
+        {
+            var thread = new Thread(TimerEvent);
+            thread.Start();
+        }
 
         public static decimal BtcTotal
         {
@@ -34,6 +48,24 @@ namespace CryptsyApi
         public static decimal CoinTotal
         {
             get { return CoinAvailable + CoinHeld; }
+        }
+
+        private static void TimerEvent()
+        {
+            while (true)
+            {
+                if (AutoBuy && BtcAvailable > 0.01M && AutoBuyValue.HasValue)
+                {
+                    PutBuyOrder(AutoBuyValue.Value, 1, BtcAvailable);
+                }
+
+                if (AutoSell && CoinAvailable > 100000 && AutoSellValue.HasValue)
+                {
+                    PutSellOrder(AutoSellValue.Value, 1, CoinAvailable);
+                }
+
+                Thread.Sleep(1000);
+            }
         }
 
         public static void RemoveFromOrder(int buyValue, decimal limit, OrderType orderType)
@@ -56,7 +88,7 @@ namespace CryptsyApi
 
         public static void PutSellOrder(int sellValue, int parts, decimal limit)
         {
-            var priceBtc = sellValue * Satoshi;
+            var priceBtc = sellValue * Satoshi * 0.9975M;
             var total = CoinAvailable * priceBtc;
             var orderLimit = total > limit ? limit : total;
             var quantity = orderLimit / priceBtc / parts;
@@ -70,7 +102,7 @@ namespace CryptsyApi
 
         public static void PutBuyOrder(int buyValue, int parts, decimal limit)
         {
-            var priceBtc = buyValue * Satoshi;
+            var priceBtc = buyValue * Satoshi * 1.0025M;
             var total = BtcAvailable;
             var orderLimit = total > limit ? limit : total;
             var quantity = orderLimit / priceBtc / parts;
@@ -83,18 +115,18 @@ namespace CryptsyApi
 
         public static void UpdateInfo()
         {
-            info = CryptoWorks.Cryptsy.CryptsyApi.GetInfo();
+            _info = CryptoWorks.Cryptsy.CryptsyApi.GetInfo();
 
-            if (info.BalancesHold == null)
+            if (_info.BalancesHold == null)
             {
                 return;
             }
 
-            BtcHeld = Convert.ToDecimal(info.BalancesHold["BTC"] != null ? info.BalancesHold["BTC"].Value : 0);
-            BtcAvailable = Convert.ToDecimal(info.BalancesAvailable["BTC"] != null ? info.BalancesAvailable["BTC"].Value : 0);
+            BtcHeld = Convert.ToDecimal(_info.BalancesHold["BTC"] != null ? _info.BalancesHold["BTC"].Value : 0);
+            BtcAvailable = Convert.ToDecimal(_info.BalancesAvailable["BTC"] != null ? _info.BalancesAvailable["BTC"].Value : 0);
 
-            CoinHeld = Convert.ToDecimal(info.BalancesHold["RDD"] != null ? info.BalancesHold["RDD"].Value : 0);
-            CoinAvailable = Convert.ToDecimal(info.BalancesAvailable["RDD"] != null ? info.BalancesAvailable["RDD"].Value : 0);
+            CoinHeld = Convert.ToDecimal(_info.BalancesHold["RDD"] != null ? _info.BalancesHold["RDD"].Value : 0);
+            CoinAvailable = Convert.ToDecimal(_info.BalancesAvailable["RDD"] != null ? _info.BalancesAvailable["RDD"].Value : 0);
         }
     }
 }
