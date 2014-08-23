@@ -127,5 +127,15 @@ namespace CryptsyApi
         {
             Active = false;
         }
+
+        private void ckbLimitBuy_CheckedChanged(object sender, EventArgs e)
+        {
+            TradeService.LimitBuy = !TradeService.LimitBuy;
+        }
+
+        private void ckbLimitSell_CheckedChanged(object sender, EventArgs e)
+        {
+            TradeService.LimitSell = !TradeService.LimitSell;
+        }
     }
 }

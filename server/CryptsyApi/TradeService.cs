@@ -18,6 +18,14 @@ namespace CryptsyApi
 
         public static bool AutoSell = false;
 
+        public static bool LimitBuy = false;
+
+        public static bool LimitSell = false;
+
+        private static int? lastBuyValue = null;
+
+        private static int? lastSellValue = null;
+
         public static int? AutoBuyValue { get; set; }
 
         public static int? AutoSellValue { get; set; }
@@ -56,12 +64,12 @@ namespace CryptsyApi
             {
                 if (AutoBuy && BtcAvailable > 0.01M && AutoBuyValue.HasValue)
                 {
-                    PutBuyOrder(AutoBuyValue.Value, 1, BtcAvailable);
+                    PutBuyOrder(LimitBuy && lastBuyValue != null ? lastBuyValue.Value : AutoBuyValue.Value, 1, BtcAvailable);
                 }
 
                 if (AutoSell && CoinAvailable > 100000 && AutoSellValue.HasValue)
                 {
-                    PutSellOrder(AutoSellValue.Value, 1, CoinAvailable);
+                    PutSellOrder( LimitSell && lastSellValue != null ? lastSellValue.Value : AutoSellValue.Value, 1, CoinAvailable);
                 }
 
                 Thread.Sleep(1000);
@@ -116,6 +124,29 @@ namespace CryptsyApi
         public static void UpdateInfo()
         {
             _info = CryptoWorks.Cryptsy.CryptsyApi.GetInfo();
+
+            if ((AutoBuy || AutoSell) && (LimitBuy || LimitSell))
+            {
+                var lastTrade = CryptoWorks.Cryptsy.CryptsyApi.GetTrades(Market)[0];
+
+                var price = Convert.ToInt32(Convert.ToDecimal(lastTrade.Tradeprice)/Satoshi);
+                if (lastTrade.Tradetype != "Buy")
+                {
+                    price--;
+                }
+
+                if (AutoBuy)
+                {
+                    lastBuyValue = price > AutoBuyValue ? AutoBuyValue : price;
+                }
+
+                price++;
+
+                if (AutoSell)
+                {
+                    lastSellValue = price < AutoSellValue ? AutoSellValue : price;
+                }
+            }
 
             if (_info.BalancesHold == null)
             {

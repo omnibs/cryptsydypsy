@@ -87,6 +87,8 @@
             this.label25 = new System.Windows.Forms.Label();
             this.removeSellLimitTextBox = new System.Windows.Forms.TextBox();
             this.label26 = new System.Windows.Forms.Label();
+            this.ckbLimitBuy = new System.Windows.Forms.CheckBox();
+            this.ckbLimitSell = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -266,9 +268,9 @@
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.coinName);
             this.groupBox1.Controls.Add(this.coinAval);
-            this.groupBox1.Location = new System.Drawing.Point(324, 15);
+            this.groupBox1.Location = new System.Drawing.Point(412, 16);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(225, 99);
+            this.groupBox1.Size = new System.Drawing.Size(225, 87);
             this.groupBox1.TabIndex = 22;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "RDD";
@@ -317,9 +319,9 @@
             this.groupBox2.Controls.Add(this.label13);
             this.groupBox2.Controls.Add(this.label14);
             this.groupBox2.Controls.Add(this.btcAvailable);
-            this.groupBox2.Location = new System.Drawing.Point(555, 12);
+            this.groupBox2.Location = new System.Drawing.Point(652, 14);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(197, 99);
+            this.groupBox2.Size = new System.Drawing.Size(197, 88);
             this.groupBox2.TabIndex = 26;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "BTC";
@@ -363,7 +365,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(6, 27);
+            this.label14.Location = new System.Drawing.Point(5, 26);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(69, 17);
             this.label14.TabIndex = 0;
@@ -614,11 +616,35 @@
             this.label26.TabIndex = 53;
             this.label26.Text = "limit =";
             // 
+            // ckbLimitBuy
+            // 
+            this.ckbLimitBuy.AutoSize = true;
+            this.ckbLimitBuy.Location = new System.Drawing.Point(284, 83);
+            this.ckbLimitBuy.Name = "ckbLimitBuy";
+            this.ckbLimitBuy.Size = new System.Drawing.Size(54, 21);
+            this.ckbLimitBuy.TabIndex = 56;
+            this.ckbLimitBuy.Text = "limit";
+            this.ckbLimitBuy.UseVisualStyleBackColor = true;
+            this.ckbLimitBuy.CheckedChanged += new System.EventHandler(this.ckbLimitBuy_CheckedChanged);
+            // 
+            // ckbLimitSell
+            // 
+            this.ckbLimitSell.AutoSize = true;
+            this.ckbLimitSell.Location = new System.Drawing.Point(283, 120);
+            this.ckbLimitSell.Name = "ckbLimitSell";
+            this.ckbLimitSell.Size = new System.Drawing.Size(54, 21);
+            this.ckbLimitSell.TabIndex = 57;
+            this.ckbLimitSell.Text = "limit";
+            this.ckbLimitSell.UseVisualStyleBackColor = true;
+            this.ckbLimitSell.CheckedChanged += new System.EventHandler(this.ckbLimitSell_CheckedChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(806, 443);
+            this.ClientSize = new System.Drawing.Size(892, 443);
+            this.Controls.Add(this.ckbLimitSell);
+            this.Controls.Add(this.ckbLimitBuy);
             this.Controls.Add(this.label25);
             this.Controls.Add(this.removeSellLimitTextBox);
             this.Controls.Add(this.label26);
@@ -740,6 +766,8 @@
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.TextBox removeSellLimitTextBox;
         private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.CheckBox ckbLimitBuy;
+        private System.Windows.Forms.CheckBox ckbLimitSell;
     }
 }
 
