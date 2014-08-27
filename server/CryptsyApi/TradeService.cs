@@ -62,14 +62,20 @@ namespace CryptsyApi
         {
             while (true)
             {
-                if (AutoBuy && BtcAvailable > 0.01M && AutoBuyValue.HasValue)
+                try
                 {
-                    PutBuyOrder(LimitBuy && lastBuyValue != null ? lastBuyValue.Value : AutoBuyValue.Value, 1, BtcAvailable);
-                }
+                    if (AutoBuy && BtcAvailable > 0.01M && AutoBuyValue.HasValue)
+                    {
+                        PutBuyOrder(LimitBuy && lastBuyValue != null ? lastBuyValue.Value : AutoBuyValue.Value, 1, BtcAvailable);
+                    }
 
-                if (AutoSell && CoinAvailable > 100000 && AutoSellValue.HasValue)
+                    if (AutoSell && CoinAvailable > 100000 && AutoSellValue.HasValue)
+                    {
+                        PutSellOrder(LimitSell && lastSellValue != null ? lastSellValue.Value : AutoSellValue.Value, 1, CoinAvailable);
+                    }
+                }
+                catch (Exception)
                 {
-                    PutSellOrder( LimitSell && lastSellValue != null ? lastSellValue.Value : AutoSellValue.Value, 1, CoinAvailable);
                 }
 
                 Thread.Sleep(1000);
@@ -123,41 +129,52 @@ namespace CryptsyApi
 
         public static void UpdateInfo()
         {
-            _info = CryptoWorks.Cryptsy.CryptsyApi.GetInfo();
+            lastBuyValue = null;
+            lastSellValue = null;
 
-            if ((AutoBuy || AutoSell) && (LimitBuy || LimitSell))
+            try
             {
-                var lastTrade = CryptoWorks.Cryptsy.CryptsyApi.GetTrades(Market)[0];
+                _info = CryptoWorks.Cryptsy.CryptsyApi.GetInfo();
+                //var orders = CryptoWorks.Cryptsy.CryptsyApi.GetAllMyOrders();
+                
 
-                var price = Convert.ToInt32(Convert.ToDecimal(lastTrade.Tradeprice)/Satoshi);
-                if (lastTrade.Tradetype != "Buy")
+                if ((AutoBuy || AutoSell) && (LimitBuy || LimitSell))
                 {
-                    price--;
+                    var lastTrade = CryptoWorks.Cryptsy.CryptsyApi.GetTrades(Market)[0];
+
+                    var price = Convert.ToInt32(Convert.ToDecimal(lastTrade.Tradeprice) / Satoshi);
+                    if (lastTrade.Tradetype != "Buy")
+                    {
+                        price--;
+                    }
+
+                    if (AutoBuy)
+                    {
+                        lastBuyValue = price > AutoBuyValue ? AutoBuyValue : price;
+                    }
+
+                    price++;
+
+                    if (AutoSell)
+                    {
+                        lastSellValue = price < AutoSellValue ? AutoSellValue : price;
+                    }
                 }
 
-                if (AutoBuy)
+                if (_info.BalancesHold == null)
                 {
-                    lastBuyValue = price > AutoBuyValue ? AutoBuyValue : price;
+                    return;
                 }
 
-                price++;
+                BtcHeld = Convert.ToDecimal(_info.BalancesHold["BTC"] != null ? _info.BalancesHold["BTC"].Value : 0);
+                BtcAvailable = Convert.ToDecimal(_info.BalancesAvailable["BTC"] != null ? _info.BalancesAvailable["BTC"].Value : 0);
 
-                if (AutoSell)
-                {
-                    lastSellValue = price < AutoSellValue ? AutoSellValue : price;
-                }
+                CoinHeld = Convert.ToDecimal(_info.BalancesHold["RDD"] != null ? _info.BalancesHold["RDD"].Value : 0);
+                CoinAvailable = Convert.ToDecimal(_info.BalancesAvailable["RDD"] != null ? _info.BalancesAvailable["RDD"].Value : 0);
             }
-
-            if (_info.BalancesHold == null)
+            catch (Exception)
             {
-                return;
             }
-
-            BtcHeld = Convert.ToDecimal(_info.BalancesHold["BTC"] != null ? _info.BalancesHold["BTC"].Value : 0);
-            BtcAvailable = Convert.ToDecimal(_info.BalancesAvailable["BTC"] != null ? _info.BalancesAvailable["BTC"].Value : 0);
-
-            CoinHeld = Convert.ToDecimal(_info.BalancesHold["RDD"] != null ? _info.BalancesHold["RDD"].Value : 0);
-            CoinAvailable = Convert.ToDecimal(_info.BalancesAvailable["RDD"] != null ? _info.BalancesAvailable["RDD"].Value : 0);
         }
     }
 }
