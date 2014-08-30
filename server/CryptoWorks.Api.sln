@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PusherClient", "PusherClien
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptsyApi.Server", "CryptsyApi.Server\CryptsyApi.Server.csproj", "{64B6CEE4-BA8F-4DA4-86B7-E49CAE0263DA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9E20E842-FFAE-445B-9C6D-747EE79D20F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoslynTests", "RoslynTests\RoslynTests.csproj", "{C05633A8-579B-4F6B-8139-DCD2E0B705B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,8 +31,15 @@ Global
 		{64B6CEE4-BA8F-4DA4-86B7-E49CAE0263DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64B6CEE4-BA8F-4DA4-86B7-E49CAE0263DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64B6CEE4-BA8F-4DA4-86B7-E49CAE0263DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C05633A8-579B-4F6B-8139-DCD2E0B705B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C05633A8-579B-4F6B-8139-DCD2E0B705B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C05633A8-579B-4F6B-8139-DCD2E0B705B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C05633A8-579B-4F6B-8139-DCD2E0B705B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C05633A8-579B-4F6B-8139-DCD2E0B705B4} = {9E20E842-FFAE-445B-9C6D-747EE79D20F8}
 	EndGlobalSection
 EndGlobal

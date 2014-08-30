@@ -9,7 +9,6 @@ namespace CryptsyApi
 {
     public partial class MainForm : Form
     {
-
         private Pusher _pusher = null;
 
         private bool Active = true;
@@ -30,7 +29,6 @@ namespace CryptsyApi
             _pusher = new Pusher("41629b0417bad133acb8", new PusherOptions(){ Encrypted = true});
             _pusher.Connect();
             _pusher.Connected += Connected;
-
         }
 
         private void Connected(object sender)
