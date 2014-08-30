@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.SelfHost;
@@ -28,9 +25,7 @@ namespace CryptsyApi
                     new { id = RouteParameter.Optional });
 
 
-                server.OpenAsync().Wait();
-                Console.ReadLine();
-
+                server.OpenAsync();
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new MainForm());

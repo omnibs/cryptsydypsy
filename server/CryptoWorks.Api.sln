@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptsyApi", "CryptsyApi\Cr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PusherClient", "PusherClient\PusherClient.csproj", "{9E30E755-C00E-4BF7-B56B-8F2D836FBA60}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptsyApi.Server", "CryptsyApi.Server\CryptsyApi.Server.csproj", "{64B6CEE4-BA8F-4DA4-86B7-E49CAE0263DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9E30E755-C00E-4BF7-B56B-8F2D836FBA60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E30E755-C00E-4BF7-B56B-8F2D836FBA60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E30E755-C00E-4BF7-B56B-8F2D836FBA60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64B6CEE4-BA8F-4DA4-86B7-E49CAE0263DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64B6CEE4-BA8F-4DA4-86B7-E49CAE0263DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64B6CEE4-BA8F-4DA4-86B7-E49CAE0263DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64B6CEE4-BA8F-4DA4-86B7-E49CAE0263DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
