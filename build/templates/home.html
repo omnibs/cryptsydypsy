@@ -22,7 +22,7 @@
 			<tbody>
 				<tr ng-repeat="item in orderState.orderbook[tab] | orderStuff: 'asc': orderState.curSell track by item.price">
 					<td>{{item.price}}</td>
-					<td>{{item.value.toFixed(4)}}</td>
+					<td ng-class="{cum: cumulative}" ng-mouseenter="cumulative = true" ng-mouseleave="cumulative = false">{{cumulative ? item.acc.toFixed(4) : item.value.toFixed(4)}}</td>
 					<td ng-class="{pos: item.delta>0, neg: item.delta<0}">{{item.delta.toFixed(3)}}</td>
 					<td ng-class="{pos: item.cumulative>0, neg: item.cumulative<0}">{{item.cumulative.toFixed(3)}}</td>
 				</tr>
@@ -45,7 +45,7 @@
 			<tbody>
 				<tr ng-repeat="item in orderState.orderbook[tab] | orderStuff: 'desc': orderState.curBuy track by item.price">
 					<td>{{item.price}}</td>
-					<td>{{item.value.toFixed(4)}}</td>
+					<td ng-class="{cum: cumulative}" ng-mouseenter="cumulative = true" ng-mouseleave="cumulative = false">{{cumulative ? item.acc.toFixed(4) : item.value.toFixed(4)}}</td>
 					<td ng-class="{pos: item.delta>0, neg: item.delta<0}">{{item.delta.toFixed(3)}}</td>
 					<td ng-class="{pos: item.cumulative>0, neg: item.cumulative<0}">{{item.cumulative.toFixed(3)}}</td>
 				</tr>

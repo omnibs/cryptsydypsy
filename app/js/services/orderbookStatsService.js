@@ -23,14 +23,14 @@ app.service('orderbookStatsService', ['notifyService',function (notifyService) {
 			if (overflown > 0)
 				state.buffer.splice(state.maxLength, overflown);
 
-			this.recalc();
 			state.curSell = data.return.RDD.sellorders[0].price.replace('.','')-0;
 			state.curBuy = data.return.RDD.buyorders[0].price.replace('.','')-0;
+			this.recalc(data);
 		},
 		getState: function() {
 			return state;
 		},
-		recalc:function() {
+		recalc:function(orderBookData) {
 			if (state.buffer.length < 1)
 				return;
 			var self = this;
@@ -45,6 +45,7 @@ app.service('orderbookStatsService', ['notifyService',function (notifyService) {
 						value: v,
 						delta: state.delta[name][i],
 						cumulative: state.cumulative[name][i],
+						acc : self.orderAcc(i, orderBookData)
 					};
 				}).filter(function(v){return !!v.price;});
 			}
@@ -53,8 +54,6 @@ app.service('orderbookStatsService', ['notifyService',function (notifyService) {
 			create('last1', 60);
 			create('last5', 60*5);
 			create('last10', 60*10);
-
-
 		},
 		diff: function(items) {
 			var latest = items[items.length-1].orders.concat();
@@ -78,6 +77,28 @@ app.service('orderbookStatsService', ['notifyService',function (notifyService) {
 			};
 
 			return r;
+		},
+		orderAcc: function(price, items){
+			var acc = 0;
+			var orders = [];
+			if (price <=  state.curBuy){
+				orders = items.return.RDD.buyorders;
+			}
+			else {
+				orders = items.return.RDD.sellorders;
+			}
+
+			for (var i in orders){
+				acc = acc + (orders[i].total -0);
+				orderPrice =  orders[i].price.replace('.','') - 0;
+
+				if ((price <=  state.curBuy && orderPrice <= price) ||
+				 (price >= state.curSell && orderPrice >= price)){
+					break;
+				}
+			}
+
+			return acc;
 		},
 		toOrderArray: function(data) {
 			var array = [];

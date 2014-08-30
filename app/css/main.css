@@ -59,6 +59,7 @@ tbody > tr:nth-child(odd) > td {
 }
 .pos{color:green; font-weight: bold;}
 .neg{color:red;font-weight: bold;}
+.cum{color:blue;font-weight: bold;}
 p{margin:2.5px;}
 .last-orders{
 	clear: both;
