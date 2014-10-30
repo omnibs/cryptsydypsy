@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.coinName = new System.Windows.Forms.Label();
             this.coinAval = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
@@ -89,8 +90,14 @@
             this.label26 = new System.Windows.Forms.Label();
             this.ckbLimitBuy = new System.Windows.Forms.CheckBox();
             this.ckbLimitSell = new System.Windows.Forms.CheckBox();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.priceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.quantityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.simpleOrderBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.simpleOrderBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // coinName
@@ -638,11 +645,42 @@
             this.ckbLimitSell.UseVisualStyleBackColor = true;
             this.ckbLimitSell.CheckedChanged += new System.EventHandler(this.ckbLimitSell_CheckedChanged);
             // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AutoGenerateColumns = false;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.priceDataGridViewTextBoxColumn,
+            this.quantityDataGridViewTextBoxColumn});
+            this.dataGridView1.DataSource = this.simpleOrderBindingSource;
+            this.dataGridView1.Location = new System.Drawing.Point(567, 222);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowTemplate.Height = 24;
+            this.dataGridView1.Size = new System.Drawing.Size(329, 209);
+            this.dataGridView1.TabIndex = 58;
+            // 
+            // priceDataGridViewTextBoxColumn
+            // 
+            this.priceDataGridViewTextBoxColumn.DataPropertyName = "Price";
+            this.priceDataGridViewTextBoxColumn.HeaderText = "Price";
+            this.priceDataGridViewTextBoxColumn.Name = "priceDataGridViewTextBoxColumn";
+            // 
+            // quantityDataGridViewTextBoxColumn
+            // 
+            this.quantityDataGridViewTextBoxColumn.DataPropertyName = "Quantity";
+            this.quantityDataGridViewTextBoxColumn.HeaderText = "Quantity";
+            this.quantityDataGridViewTextBoxColumn.Name = "quantityDataGridViewTextBoxColumn";
+            // 
+            // simpleOrderBindingSource
+            // 
+            this.simpleOrderBindingSource.DataSource = typeof(CryptsyApi.SimpleOrder);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(892, 443);
+            this.ClientSize = new System.Drawing.Size(949, 443);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.ckbLimitSell);
             this.Controls.Add(this.ckbLimitBuy);
             this.Controls.Add(this.label25);
@@ -700,6 +738,8 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.simpleOrderBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -768,6 +808,10 @@
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.CheckBox ckbLimitBuy;
         private System.Windows.Forms.CheckBox ckbLimitSell;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn priceDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn quantityDataGridViewTextBoxColumn;
+        private System.Windows.Forms.BindingSource simpleOrderBindingSource;
     }
 }
 

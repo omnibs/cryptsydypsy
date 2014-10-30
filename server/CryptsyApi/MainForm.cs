@@ -3,13 +3,12 @@ using System.Globalization;
 using System.Threading;
 using System.Windows.Forms;
 using CryptoWorks.Cryptsy;
-using PusherClient;
 
 namespace CryptsyApi
 {
     public partial class MainForm : Form
     {
-        private Pusher _pusher = null;
+        //private Pusher _pusher = null;
 
         private bool Active = true;
 
@@ -26,16 +25,16 @@ namespace CryptsyApi
 
         private async void PusherTest()
         {
-            _pusher = new Pusher("41629b0417bad133acb8", new PusherOptions(){ Encrypted = true});
-            _pusher.Connect();
-            _pusher.Connected += Connected;
+            //_pusher = new Pusher("41629b0417bad133acb8", new PusherOptions(){ Encrypted = true});
+            //_pusher.Connect();
+            //_pusher.Connected += Connected;
         }
 
         private void Connected(object sender)
         {
 
-            var chat = _pusher.Subscribe("chat");
-            chat.Bind("message", data => Console.WriteLine("[" + data.name + "] " + data.message));
+            //var chat = _pusher.Subscribe("chat");
+            //chat.Bind("message", data => Console.WriteLine("[" + data.name + "] " + data.message));
         }
 
         private void UpdateInfo()
@@ -57,11 +56,18 @@ namespace CryptsyApi
                         coinAval.Text = TradeService.CoinAvailable.ToString("#,#0.#0");
                         coinHeld.Text = TradeService.CoinHeld.ToString("#,#0.#0");
                         coinTotal.Text = TradeService.CoinTotal.ToString("#,#0.#0");
+
+                        simpleOrderBindingSource.Clear();
+                        foreach (var item in TradeService.MyOrders)
+                        {
+                            simpleOrderBindingSource.Add(item);
+                        }
+
                     }));
                 }
                 catch (System.InvalidOperationException ex)
                 {
-                    
+
                 }
             }
         }

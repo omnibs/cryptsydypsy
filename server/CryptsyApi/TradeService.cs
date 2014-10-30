@@ -3,6 +3,8 @@ using System.Linq;
 using System.Threading;
 using CryptoWorks.Cryptsy;
 using CryptsyApi.Cryptsy.Entities;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace CryptsyApi
 {
@@ -10,6 +12,8 @@ namespace CryptsyApi
     {
         public const string Market = "169";
         public const string CoinName = "RDD";
+
+        public static List<SimpleOrder> MyOrders = null;
 
         public static decimal BtcHeld { get; private set; }
         public static decimal BtcAvailable { get; private set; }
@@ -127,6 +131,17 @@ namespace CryptsyApi
             }
         }
 
+        private static List<SimpleOrder> ProcessOrders(List<Order> orders)
+        {
+            var candidates = from o in orders
+                             orderby o.Price descending
+                             where o.Marketid == Market
+                             group o by o.Price into prices
+                             select new SimpleOrder { Price = prices.Key / Satoshi, Quantity = prices.Sum(p => p.Total) };
+
+            return candidates.ToList();
+        }
+
         public static void UpdateInfo()
         {
             lastBuyValue = null;
@@ -135,8 +150,13 @@ namespace CryptsyApi
             try
             {
                 _info = CryptoWorks.Cryptsy.CryptsyApi.GetInfo();
-                //var orders = CryptoWorks.Cryptsy.CryptsyApi.GetAllMyOrders();
-                
+
+                var orders = CryptoWorks.Cryptsy.CryptsyApi.GetAllMyOrders();
+                MyOrders = ProcessOrders(orders);
+
+
+                //var source = ProcessOrders(orders);
+
 
                 if ((AutoBuy || AutoSell) && (LimitBuy || LimitSell))
                 {
